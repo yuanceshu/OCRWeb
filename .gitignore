@@ -1,0 +1,21 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+*.log
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+__pycache__/
+*.pyc
+
+# Local source drop-zones and historical reference materials.
+OCRapi/
+其他/
+
+# Generated or duplicate artifacts.
+docs-source/ocr-interfaces/archive/
+交付/*.png
+tmp-*.png
+tmp-*.jpg
+src/assets/thumbs/ocr-thumbnail-sheet.png

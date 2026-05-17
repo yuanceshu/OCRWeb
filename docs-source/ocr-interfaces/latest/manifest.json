@@ -1,0 +1,167 @@
+{
+  "version": "2026-05-15",
+  "sourceDirectory": "docs-source/ocr-interfaces/latest/pdf",
+  "notes": "PDF files copied from D:/Codex/OCRWeb/OCRapi. This manifest is a first-pass source map for future automated synchronization.",
+  "documents": [
+    {
+      "sourceId": "ocr-26-products-v2-1",
+      "title": "银商大脑-译图OCR26种产品-接口文档V2.1",
+      "file": "银商大脑-译图OCR26种产品-接口文档V2.1.pdf",
+      "category": "综合资料",
+      "slugs": ["all"],
+      "status": "reference"
+    },
+    {
+      "sourceId": "vat-invoice",
+      "title": "增值税发票识别",
+      "file": "银联商务开放平台--增值税发票识别.pdf",
+      "category": "发票票据类",
+      "slugs": ["vat-invoice"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "used-car-invoice",
+      "title": "电子发票二手车销售统一发票识别",
+      "file": "银联商务开放平台--电子发票二手车销售统一发票识别.pdf",
+      "category": "车辆交通类",
+      "slugs": ["used-car-invoice"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "motor-vehicle-invoice",
+      "title": "电子发票机动车销售统一发票识别",
+      "file": "银联商务开放平台--电子发票机动车销售统一发票识别.pdf",
+      "category": "车辆交通类",
+      "slugs": ["motor-vehicle-invoice"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "railway-eticket",
+      "title": "铁路电子客票识别服务",
+      "file": "银联商务开放平台--铁路电子客票识别服务.pdf",
+      "category": "发票票据类",
+      "slugs": ["railway-eticket", "train-ticket"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "itinerary-receipt",
+      "title": "电子发票航空运输电子客票行程单OCR识别",
+      "file": "银商开放平台--电子发票航空运输电子客票行程单OCR识别.pdf",
+      "category": "发票票据类",
+      "slugs": ["itinerary-receipt"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "receipt-and-registration",
+      "title": "银商大脑OCR小票、登记证识别接口",
+      "file": "银联商务开放平台--银商大脑OCR小票、登记证识别接口.pdf",
+      "category": "发票票据类",
+      "slugs": ["receipt-ocr", "motor-vehicle-registration-certificate"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "financial-ticket-mixed",
+      "title": "财务票据混合识别、手写签名识别接口",
+      "file": "财务票据混合识别、手写签名识别接口.pdf",
+      "category": "发票票据类",
+      "slugs": ["financial-ticket-mixed", "handwritten-signature"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "paddleocr-general",
+      "title": "PaddleOCR通用识别",
+      "file": "银商开放平台--PaddleOCR通用识别.pdf",
+      "category": "通用文本类",
+      "slugs": ["paddleocr-general", "universal-identification-text"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "general-text-simple",
+      "title": "银商大脑通用文字简化识别",
+      "file": "银联商务开放平台--银商大脑通用文字简化识别.pdf",
+      "category": "通用文本类",
+      "slugs": ["universal-identification-text"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "passport-permits-organization-export",
+      "title": "护照V2、港澳台来往内地V2、组织机构代码证、中国出口许可证",
+      "file": "银商开放平台--护照V2&港澳台来往内地V2&组织机构代码证&中国出口许可证.pdf",
+      "category": "证照身份类",
+      "slugs": ["passport", "mainland-travel-permit-for-gat", "organization-code-certificate", "export-license"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "basic-deposit-account",
+      "title": "基本存款账户信息OCR识别",
+      "file": "银联商务开放平台--基本存款账户信息OCR识别.pdf",
+      "category": "商户经营类",
+      "slugs": ["basic-deposit-account", "account-opening-license"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "business-institution-certificate",
+      "title": "事业单位法人证书识别",
+      "file": "银联商务开放平台--事业单位法人证书识别.pdf",
+      "category": "商户经营类",
+      "slugs": ["institution-legal-person-certificate"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "seal-ocr",
+      "title": "印章识别",
+      "file": "银联商务开放平台--印章识别.pdf",
+      "category": "商户经营类",
+      "slugs": ["seal-ocr"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "tax-payment-certificate",
+      "title": "完税证明接口",
+      "file": "银商开放平台--完税证明接口.pdf",
+      "category": "发票票据类",
+      "slugs": ["tax-payment-certificate"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "departure-tax-refund",
+      "title": "离境退税申请单识别",
+      "file": "银联商务开放平台--离境退税申请单识别.pdf",
+      "category": "发票票据类",
+      "slugs": ["departure-tax-refund"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "real-estate-certificate",
+      "title": "银商大脑全国房产证接口",
+      "file": "银联商务开放平台--银商大脑全国房产证接口.pdf",
+      "category": "地产凭证类",
+      "slugs": ["real-estate-certificate", "real-estate-registration-certificate"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "ebike-motorcycle-certificate",
+      "title": "电动自行车、摩托车合格证",
+      "file": "银商开放平台--电动自行车&摩托车合格证.pdf",
+      "category": "车辆交通类",
+      "slugs": ["electric-bicycle-certificate", "motorcycle-certificate"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "barcode-ocr",
+      "title": "银商大脑条形码识别",
+      "file": "银联商务开放平台--银商大脑条形码识别.pdf",
+      "category": "通用文本类",
+      "slugs": ["barcode-ocr"],
+      "status": "latest"
+    },
+    {
+      "sourceId": "customs-declaration",
+      "title": "银商大脑海关报关单接口",
+      "file": "银联商务开放平台--银商大脑海关报关单接口.pdf",
+      "category": "发票票据类",
+      "slugs": ["customs-declaration"],
+      "status": "latest"
+    }
+  ]
+}
