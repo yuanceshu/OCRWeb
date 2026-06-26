@@ -1,3 +1,7 @@
+import { categories as generatedCategories, categoryBySlug } from "./generated/interfaceClassification.generated";
+import { interfaceSourceBySlug } from "./generated/interfaceSourceMap.generated";
+import type { BusinessCategoryLabel } from "./generated/interfaceClassification.generated";
+
 export type FieldTag =
   | "必返"
   | "可选"
@@ -8,13 +12,7 @@ export type FieldTag =
   | "业务核心"
   | "图片Base64";
 
-export type InterfaceCategory =
-  | "证照身份类"
-  | "发票票据类"
-  | "车辆交通类"
-  | "商户经营类"
-  | "通用文本类"
-  | "地产凭证类";
+export type InterfaceCategory = BusinessCategoryLabel;
 
 export type VisualKind = "idcard" | "invoice" | "document" | "ticket" | "vehicle" | "text";
 
@@ -38,15 +36,21 @@ export interface FieldGroup {
 export interface EndpointInfo {
   protocol: string;
   method: "POST";
-  testUrl: string;
+  testUrl?: string;
   prodUrl: string;
+  contentType: string;
+  authType: string;
 }
 
-export interface VisualSpec {
-  kind: VisualKind;
-  coverAlt: string;
-  detailAlt: string;
-  annotations: string[];
+export interface DownloadAsset {
+  title: string;
+  fileName: string;
+  href: string;
+}
+
+export interface RequestExample {
+  header: Record<string, string>;
+  body: unknown;
 }
 
 export interface OcrInterfaceDoc {
@@ -57,15 +61,18 @@ export interface OcrInterfaceDoc {
   scenarios: string[];
   fieldCount: number;
   endpoints: EndpointInfo;
-  request: FieldDef[];
+  requestGroups: FieldGroup[];
   fieldGroups: FieldGroup[];
   response: {
     overview: string;
     commonGroups: FieldGroup[];
+    path?: string[];
   };
   errors: FieldDef[];
-  visual: VisualSpec;
+  sourcePdf?: DownloadAsset;
   relatedSlugs: string[];
+  requestExample?: RequestExample;
+  responseExample?: unknown;
 }
 
 export interface InterfaceCard {
@@ -76,6 +83,27 @@ export interface InterfaceCard {
   previewFields: string[];
   visualKind: VisualKind;
   status: "complete" | "planned";
+}
+
+type InterfaceCardSeed = Omit<InterfaceCard, "category">;
+
+const defaultEndpointMeta = {
+  protocol: "HTTP(S) + JSON",
+  method: "POST" as const,
+  contentType: "application/json",
+  authType: "Authorization",
+};
+
+export function getEndpointInfoBySlug(slug: string): EndpointInfo {
+  const source = interfaceSourceBySlug[slug];
+  const testUrl = source?.endpoints.find((item) => item.environment === "test")?.url;
+  const prodUrl = source?.endpoints.find((item) => item.environment === "production")?.url;
+
+  return {
+    ...defaultEndpointMeta,
+    ...(testUrl ? { testUrl } : {}),
+    prodUrl: prodUrl ?? `https://api-lob.open.chinaums.com/v1/brain/ocr/${slug}`,
+  };
 }
 
 export const commonRequestFields: FieldDef[] = [
@@ -89,6 +117,15 @@ export const commonRequestFields: FieldDef[] = [
     notes: "按平台认证流程生成，不在本站保存。",
   },
   {
+    key: "data.requestID",
+    label: "请求流水号",
+    type: "字符串",
+    required: true,
+    description: "业务侧生成的请求唯一标识，用于排查调用链路和结果追踪。",
+    tags: ["必返", "业务核心"],
+    formatHint: "建议使用唯一流水号或 UUID",
+  },
+  {
     key: "picBase64",
     label: "图片文本",
     type: "字符串",
@@ -96,6 +133,19 @@ export const commonRequestFields: FieldDef[] = [
     description: "图片文件的 Base64 编码。",
     tags: ["必返", "图片Base64"],
     formatHint: "data:image/* 转码后的 Base64 字符串",
+  },
+];
+
+export const commonRequestGroups: FieldGroup[] = [
+  {
+    title: "请求头 Header",
+    description: "调用接口前需要按开放平台认证流程生成认证内容。",
+    fields: [commonRequestFields[0]],
+  },
+  {
+    title: "请求体 Body",
+    description: "OCR 识别图片以 JSON 请求体提交，页面不保存或上传真实图片。",
+    fields: [commonRequestFields[1], commonRequestFields[2]],
   },
 ];
 
@@ -156,7 +206,7 @@ export const commonResponseGroups: FieldGroup[] = [
   },
   {
     title: "字段与坐标信息",
-    description: "FieldList 里承载字段名、中文名、识别值、置信度和区域坐标。",
+    description: "ResultList 里承载识别对象、FieldList、状态信息和字段级结果。",
     fields: [
       {
         key: "ResultList",
@@ -165,6 +215,30 @@ export const commonResponseGroups: FieldGroup[] = [
         required: false,
         description: "识别对象的结果列表。",
         tags: ["数组"],
+      },
+      {
+        key: "pid",
+        label: "证件类型 PID",
+        type: "数字型",
+        required: false,
+        description: "证件对应类型 pid。",
+        tags: ["可选"],
+      },
+      {
+        key: "type",
+        label: "证件类型",
+        type: "字符串",
+        required: false,
+        description: "识别对象的证件类型。",
+        tags: ["可选"],
+      },
+      {
+        key: "ocr_error_code",
+        label: "识别响应状态码",
+        type: "数字型",
+        required: false,
+        description: "0 代表识别成功。",
+        tags: ["枚举"],
       },
       {
         key: "FieldList",
@@ -212,6 +286,38 @@ export const commonResponseGroups: FieldGroup[] = [
         type: "数组",
         required: false,
         description: "字段所在区域的矩形位置信息。",
+        tags: ["坐标"],
+      },
+      {
+        key: "left",
+        label: "左",
+        type: "数字型",
+        required: false,
+        description: "矩形区域左边界位置。",
+        tags: ["坐标"],
+      },
+      {
+        key: "top",
+        label: "上",
+        type: "数字型",
+        required: false,
+        description: "矩形区域上边界位置。",
+        tags: ["坐标"],
+      },
+      {
+        key: "width",
+        label: "宽",
+        type: "数字型",
+        required: false,
+        description: "矩形区域宽度。",
+        tags: ["坐标"],
+      },
+      {
+        key: "height",
+        label: "高",
+        type: "数字型",
+        required: false,
+        description: "矩形区域高度。",
         tags: ["坐标"],
       },
       {
@@ -299,25 +405,236 @@ export const commonErrorFields: FieldDef[] = [
   },
 ];
 
+const sourcePdfAssets = {
+  allProducts: new URL(
+    "../../docs-source/ocr-interfaces/latest/pdf/银商大脑-译图OCR26种产品-接口文档V2.1.pdf",
+    import.meta.url,
+  ).href,
+  vatInvoice: new URL(
+    "../../docs-source/ocr-interfaces/latest/pdf/银联商务开放平台--增值税发票识别.pdf",
+    import.meta.url,
+  ).href,
+};
+
+const idcardRequestGroups: FieldGroup[] = [
+  {
+    title: "请求头 Header",
+    description: "调用接口前需要按开放平台认证流程生成认证内容。",
+    fields: [commonRequestFields[0]],
+  },
+  {
+    title: "请求体 Body",
+    description: "身份证识别请求体只包含待识别图片和是否返回头像开关。",
+    fields: [
+      commonRequestFields[2],
+      {
+        key: "isHeadImage",
+        label: "是否返回头像",
+        type: "布尔型",
+        required: false,
+        description: "true 表示返回头像图片数据，false 表示不返回。默认 false。",
+        tags: ["可选"],
+        formatHint: "true / false",
+      },
+    ],
+  },
+];
+
+const vatInvoiceRequestGroups: FieldGroup[] = [
+  {
+    title: "请求头 Header",
+    description: "调用接口前需要按开放平台认证流程生成认证内容。",
+    fields: [commonRequestFields[0]],
+  },
+  {
+    title: "请求体 Body",
+    description: "请求体包含 data 对象中的 requestID，以及顶层的 picBase64 图片内容。",
+    fields: [
+      {
+        key: "data",
+        label: "请求参数对象",
+        type: "对象",
+        required: true,
+        description: "业务请求参数对象。",
+        tags: ["必返"],
+      },
+      commonRequestFields[1],
+      commonRequestFields[2],
+    ],
+  },
+];
+
+const vatInvoiceResponseGroups: FieldGroup[] = [
+  {
+    title: "顶层响应",
+    description: "先判断接口顶层返回码，再进入 result 对象读取业务结果。",
+    fields: [
+      {
+        key: "errCode",
+        label: "顶层返回码",
+        type: "字符串",
+        required: true,
+        description: "顶层返回码，AN000000 表示成功。",
+        tags: ["必返", "业务核心"],
+      },
+      {
+        key: "errMsg",
+        label: "顶层返回说明",
+        type: "字符串",
+        required: true,
+        description: "顶层返回说明。",
+        tags: ["必返"],
+      },
+      {
+        key: "result",
+        label: "业务结果对象",
+        type: "对象",
+        required: true,
+        description: "业务结果容器。",
+        tags: ["必返"],
+      },
+    ],
+  },
+  {
+    title: "业务结果容器",
+    description: "识别结果位于 result.ocrResult 对象中，respondID 用于结果追踪。",
+    fields: [
+      {
+        key: "result.code",
+        label: "业务结果码",
+        type: "字符串",
+        required: true,
+        description: "业务处理结果码，AN000000 表示成功。",
+        tags: ["必返", "业务核心"],
+      },
+      {
+        key: "result.msg",
+        label: "业务结果说明",
+        type: "字符串",
+        required: true,
+        description: "业务处理结果说明。",
+        tags: ["必返"],
+      },
+      {
+        key: "result.ocrResult",
+        label: "OCR 结果对象",
+        type: "对象",
+        required: true,
+        description: "增值税发票结构化识别结果对象。",
+        tags: ["必返"],
+      },
+      {
+        key: "result.respondID",
+        label: "响应流水号",
+        type: "字符串",
+        required: true,
+        description: "用于追踪本次接口响应的唯一标识。",
+        tags: ["必返"],
+      },
+    ],
+  },
+];
+
+const vatInvoiceErrorFields: FieldDef[] = [
+  {
+    key: "errCode",
+    label: "顶层返回码",
+    type: "字符串",
+    required: true,
+    description: "顶层返回码，AN000000 表示成功。",
+    tags: ["必返", "业务核心"],
+  },
+  {
+    key: "errMsg",
+    label: "顶层返回说明",
+    type: "字符串",
+    required: true,
+    description: "顶层返回说明。",
+    tags: ["必返"],
+  },
+  {
+    key: "result.code",
+    label: "业务结果码",
+    type: "字符串",
+    required: true,
+    description: "业务处理结果码，AN000000 表示成功。",
+    tags: ["必返", "业务核心"],
+  },
+  {
+    key: "result.msg",
+    label: "业务结果说明",
+    type: "字符串",
+    required: true,
+    description: "业务处理结果说明。",
+    tags: ["必返"],
+  },
+];
+
 const idcardDoc: OcrInterfaceDoc = {
   slug: "idcard",
   title: "二代证（人像页+国徽页）",
-  category: "证照身份类",
+  category: categoryBySlug.idcard,
   summary: "识别居民身份证人像页与国徽页，提取身份信息、住址、签发机关和有效期限。",
   scenarios: ["实名开户", "身份核验", "客户资料归档", "证件有效期检查"],
-  fieldCount: 12,
+  fieldCount: 13,
   endpoints: {
-    protocol: "HTTP(S) + JSON",
-    method: "POST",
-    testUrl: "https://test-api-open.chinaums.com/v1/brain/ocr/idcard",
-    prodUrl: "https://api-lob.open.chinaums.com/v1/brain/ocr/idcard",
+    ...getEndpointInfoBySlug("idcard"),
   },
-  request: commonRequestFields,
+  requestGroups: idcardRequestGroups,
   fieldGroups: [
     {
       title: "人像页字段",
       description: "用于识别个人基础身份信息和证件版面状态。",
       fields: [
+        {
+          key: "img_type",
+          label: "图片类型",
+          type: "数字型",
+          required: false,
+          description: "复印件检测结果：0 原件，1 屏拍件，2 复印件。",
+          tags: ["枚举"],
+        },
+        {
+          key: "img_type_score",
+          label: "证件分类检测置信度",
+          type: "数字型",
+          required: false,
+          description: "证件分类检测的置信度。",
+          tags: ["置信度"],
+        },
+        {
+          key: "score",
+          label: "字段识别置信度",
+          type: "数字型",
+          required: false,
+          description: "字段级识别置信度。",
+          tags: ["置信度"],
+        },
+        {
+          key: "head_image_data",
+          label: "头像图片数据",
+          type: "字符串",
+          required: false,
+          description: "头像图片的 Base64 编码，仅在 isHeadImage 为 true 时返回。",
+          tags: ["可选", "图片Base64"],
+        },
+        {
+          key: "IDNum",
+          label: "身份证号码",
+          type: "字符串",
+          required: false,
+          description: "身份证人像页上的公民身份号码。",
+          tags: ["业务核心"],
+          formatHint: "18 位号码格式占位",
+        },
+        {
+          key: "Nation",
+          label: "民族",
+          type: "字符串",
+          required: false,
+          description: "身份证人像页上的民族。",
+          tags: ["业务核心"],
+        },
         {
           key: "Name",
           label: "姓名",
@@ -362,45 +679,12 @@ const idcardDoc: OcrInterfaceDoc = {
           tags: ["业务核心"],
         },
         {
-          key: "IDNum",
-          label: "身份证号码",
-          type: "字符串",
-          required: false,
-          description: "身份证人像页上的公民身份号码。",
-          tags: ["业务核心"],
-          formatHint: "18 位号码格式占位",
-        },
-        {
           key: "Birth_OCR",
           label: "出生版面信息",
           type: "字符串",
           required: false,
           description: "出生日期对应的版面识别信息。",
           tags: ["可选"],
-        },
-        {
-          key: "img_type",
-          label: "图片类型",
-          type: "数字型",
-          required: false,
-          description: "复印件检测结果：0 原件，1 屏拍件，2 复印件。",
-          tags: ["枚举"],
-        },
-        {
-          key: "img_type_score",
-          label: "证件分类检测置信度",
-          type: "数字型",
-          required: false,
-          description: "证件分类检测的置信度。",
-          tags: ["置信度"],
-        },
-        {
-          key: "score",
-          label: "字段识别置信度",
-          type: "数字型",
-          required: false,
-          description: "字段级识别置信度。",
-          tags: ["置信度"],
         },
       ],
     },
@@ -430,119 +714,225 @@ const idcardDoc: OcrInterfaceDoc = {
   ],
   response: {
     overview:
-      "二代证接口返回通用 OCR 结果结构，并在 FieldList 中提供人像页与国徽页的特有字段。",
+      "二代证接口采用旧版 FieldList 结果结构，需先判断 data / ResultList 状态，再从 FieldList 中读取人像页和国徽页字段。",
     commonGroups: commonResponseGroups,
+    path: ["data", "Result", "ResultList", "FieldList"],
   },
   errors: commonErrorFields,
-  visual: {
-    kind: "idcard",
-    coverAlt: "规范化身份证示意卡片",
-    detailAlt: "身份证字段解剖示意图",
-    annotations: ["姓名", "身份证号码", "住址", "签发机关", "有效期限"],
+  sourcePdf: {
+    title: "银商大脑-译图OCR26种产品-接口文档V2.1",
+    fileName: "银商大脑-译图OCR26种产品-接口文档V2.1.pdf",
+    href: sourcePdfAssets.allProducts,
   },
   relatedSlugs: ["bankcard", "social-security-card", "business-license", "passport"],
+  requestExample: {
+    header: {
+      Authorization: 'OPEN-ACCESS-TOKEN AccessToken="<access-token>"',
+      "Content-Type": "application/json",
+    },
+    body: {
+      picBase64: "<base64-image-payload>",
+      isHeadImage: false,
+    },
+  },
+  responseExample: {
+    errCode: "0000",
+    errInfo: "success",
+    data: {
+      PageInfo: [
+        {
+          PageIndex: 1,
+          ErrorCode: 0,
+          Time: "18ms",
+        },
+      ],
+      Result: [
+        {
+          ResultList: [
+            {
+              pid: 1,
+              type: "idcard",
+              ocr_error_code: 0,
+              direct: 0,
+              angle: 0,
+              color: 0,
+              shape: 3,
+              is_image: 0,
+              FieldList: [
+                {
+                  key: "Name",
+                  chn_key: "姓名",
+                  value: "张三",
+                  score: 99.1,
+                  position: {
+                    left: 124,
+                    top: 88,
+                    width: 94,
+                    height: 26,
+                  },
+                  quad: [
+                    [124, 88],
+                    [218, 88],
+                    [124, 114],
+                    [218, 114],
+                  ],
+                },
+                {
+                  key: "IDNum",
+                  chn_key: "身份证号码",
+                  value: "310101199001011234",
+                  score: 98.8,
+                  position: {
+                    left: 120,
+                    top: 226,
+                    width: 246,
+                    height: 28,
+                  },
+                  quad: [
+                    [120, 226],
+                    [366, 226],
+                    [120, 254],
+                    [366, 254],
+                  ],
+                },
+                {
+                  key: "IssueAuthority",
+                  chn_key: "签发机关",
+                  value: "上海市公安局浦东分局",
+                  score: 98.5,
+                  position: {
+                    left: 116,
+                    top: 318,
+                    width: 180,
+                    height: 26,
+                  },
+                  quad: [
+                    [116, 318],
+                    [296, 318],
+                    [116, 344],
+                    [296, 344],
+                  ],
+                },
+                {
+                  key: "ExpiryDate",
+                  chn_key: "有效期限",
+                  value: "2010.01.01-2030.01.01",
+                  score: 98.2,
+                  position: {
+                    left: 112,
+                    top: 354,
+                    width: 212,
+                    height: 24,
+                  },
+                  quad: [
+                    [112, 354],
+                    [324, 354],
+                    [112, 378],
+                    [324, 378],
+                  ],
+                },
+                {
+                  key: "head_image_data",
+                  chn_key: "头像图片数据",
+                  value: "<base64-head-image>",
+                  score: 100,
+                  position: {
+                    left: 0,
+                    top: 0,
+                    width: 0,
+                    height: 0,
+                  },
+                  quad: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  },
 };
 
 const vatInvoiceDoc: OcrInterfaceDoc = {
   slug: "vat-invoice",
   title: "增值税发票",
-  category: "发票票据类",
+  category: categoryBySlug["vat-invoice"],
   summary: "识别增值税发票票面信息，提取购销方、金额税额、发票号码和明细行字段。",
   scenarios: ["财务报销", "税票归档", "交易凭证审核", "供应商对账"],
-  fieldCount: 39,
+  fieldCount: 33,
   endpoints: {
-    protocol: "HTTP(S) + JSON",
-    method: "POST",
-    testUrl: "https://test-api-open.chinaums.com/v1/brain/ocr/vat-invoice",
-    prodUrl: "https://api-lob.open.chinaums.com/v1/brain/ocr/vat-invoice",
+    ...getEndpointInfoBySlug("vat-invoice"),
   },
-  request: commonRequestFields,
+  requestGroups: vatInvoiceRequestGroups,
   fieldGroups: [
     {
       title: "票面基础信息",
-      description: "用于定位发票身份、开票日期、票据类型和防伪辅助信息。",
+      description: "票面基础字段位于 result.ocrResult 对象中，按 PDF 原文字段名对齐展示。",
       fields: [
         {
-          key: "FPDM",
+          key: "invoiceName",
+          label: "发票名称",
+          type: "字符串",
+          required: true,
+          description: "发票名称或票据类型名称。",
+          tags: ["业务核心"],
+        },
+        {
+          key: "invoiceCode",
           label: "发票代码",
           type: "字符串",
-          required: false,
-          description: "票面发票代码。",
+          required: true,
+          description: "发票代码。",
           tags: ["业务核心"],
         },
         {
-          key: "FPHM",
+          key: "invoiceNumber",
           label: "发票号码",
           type: "字符串",
-          required: false,
-          description: "票面发票号码。",
+          required: true,
+          description: "发票号码。",
           tags: ["业务核心"],
         },
         {
-          key: "KPRQ",
+          key: "invoiceDate",
           label: "开票日期",
           type: "字符串",
-          required: false,
+          required: true,
           description: "发票开具日期。",
           tags: ["业务核心"],
-          formatHint: "YYYY-MM-DD 或票面原格式",
+          formatHint: "票面原格式",
         },
         {
-          key: "JQBH",
-          label: "机器编号",
-          type: "字符串",
-          required: false,
-          description: "票面机器编号。",
-          tags: ["可选"],
-        },
-        {
-          key: "MWSJ",
-          label: "密文数据",
-          type: "字符串",
-          required: false,
-          description: "票面密文区识别结果。",
-          tags: ["可选"],
-        },
-        {
-          key: "FPLX",
-          label: "发票类型",
-          type: "字符串",
-          required: false,
-          description:
-            "增值税专用发票 01，增值税普通发票 04，电子普通发票 10，电子专用发票 20，卷式 11，通行费 14。",
-          tags: ["枚举"],
-        },
-        {
-          key: "JYM",
+          key: "checkCode",
           label: "校验码",
           type: "字符串",
-          required: false,
+          required: true,
           description: "发票校验码。",
           tags: ["业务核心"],
         },
         {
-          key: "QR",
-          label: "二维码",
+          key: "machineNo",
+          label: "机器编号",
           type: "字符串",
-          required: false,
-          description: "票面二维码识别结果。",
+          required: true,
+          description: "发票票面机器编号。",
           tags: ["可选"],
         },
         {
-          key: "FPLC",
-          label: "发票联次",
+          key: "passwordArea",
+          label: "密码区",
           type: "字符串",
-          required: false,
-          description: "取值 0-3，0 表示不确定，其他为具体联次。",
-          tags: ["枚举"],
+          required: true,
+          description: "发票密码区识别结果。",
+          tags: ["可选"],
         },
         {
-          key: "FPZYZ",
-          label: "发票专用章",
-          type: "字符串",
-          required: false,
-          description: "0 表示没检测到，1 表示检测到。",
-          tags: ["枚举"],
+          key: "QRCode",
+          label: "二维码",
+          type: "数组",
+          required: true,
+          description: "二维码拆分后的数组结果。",
+          tags: ["数组", "可选"],
         },
       ],
     },
@@ -551,244 +941,299 @@ const vatInvoiceDoc: OcrInterfaceDoc = {
       description: "用于财务归档、客户供应商匹配和税号校验。",
       fields: [
         {
-          key: "GFMC",
+          key: "buyerName",
           label: "购方名称",
           type: "字符串",
-          required: false,
+          required: true,
           description: "购买方名称。",
           tags: ["业务核心"],
         },
         {
-          key: "GMSBH",
-          label: "购方识别号",
+          key: "buyerNumber",
+          label: "购方号码",
           type: "字符串",
-          required: false,
-          description: "购买方纳税人识别号。",
+          required: true,
+          description: "购买方号码或识别号码。",
           tags: ["业务核心"],
         },
         {
-          key: "GFKHHZH",
-          label: "购方开户行账号",
-          type: "字符串",
-          required: false,
-          description: "购买方开户行及账号。",
-          tags: ["可选"],
-        },
-        {
-          key: "GFDZDH",
+          key: "buyerAddressAndPhone",
           label: "购方地址电话",
           type: "字符串",
-          required: false,
+          required: true,
           description: "购买方地址和电话。",
           tags: ["可选"],
         },
         {
-          key: "XFMC",
+          key: "buyerBankAndAccount",
+          label: "购方开户行账号",
+          type: "字符串",
+          required: true,
+          description: "购买方开户行及账号。",
+          tags: ["可选"],
+        },
+        {
+          key: "sellerName",
           label: "销方名称",
           type: "字符串",
-          required: false,
+          required: true,
           description: "销售方名称。",
           tags: ["业务核心"],
         },
         {
-          key: "XFSBH",
-          label: "销方识别号",
+          key: "sellerNumber",
+          label: "销方号码",
           type: "字符串",
-          required: false,
-          description: "销售方纳税人识别号。",
+          required: true,
+          description: "销售方号码或识别号码。",
           tags: ["业务核心"],
         },
         {
-          key: "XFKHHZH",
-          label: "销方开户行账号",
-          type: "字符串",
-          required: false,
-          description: "销售方开户行及账号。",
-          tags: ["可选"],
-        },
-        {
-          key: "XFDZDH",
+          key: "sellerAddressAndPhone",
           label: "销方地址电话",
           type: "字符串",
-          required: false,
+          required: true,
           description: "销售方地址和电话。",
           tags: ["可选"],
         },
-      ],
-    },
-    {
-      title: "金额与合计",
-      description: "用于报销核验、对账和票面金额校验。",
-      fields: [
         {
-          key: "JSHJ",
-          label: "价税合计",
+          key: "sellerBankAndAccount",
+          label: "销方开户行账号",
           type: "字符串",
-          required: false,
-          description: "价税合计金额。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "JEHJ",
-          label: "金额合计",
-          type: "字符串",
-          required: false,
-          description: "不含税金额合计。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "SEHJ",
-          label: "税额合计",
-          type: "字符串",
-          required: false,
-          description: "税额合计。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "DXJE",
-          label: "大写金额",
-          type: "字符串",
-          required: false,
-          description: "票面大写金额。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "BZ",
-          label: "备注",
-          type: "字符串",
-          required: false,
-          description: "票面备注信息。",
+          required: true,
+          description: "销售方开户行及账号。",
           tags: ["可选"],
         },
       ],
     },
     {
-      title: "人员与明细行",
-      description: "用于识别开票人信息和货物服务明细。",
+      title: "商品明细字段",
+      description: "明细字段均以数组形式返回，对应多行商品或服务内容。",
       fields: [
         {
-          key: "SKR",
+          key: "projectName",
+          label: "项目名称",
+          type: "数组",
+          required: true,
+          description: "商品或服务项目名称数组。",
+          tags: ["数组", "业务核心"],
+        },
+        {
+          key: "specModel",
+          label: "规格型号",
+          type: "数组",
+          required: true,
+          description: "规格型号数组。",
+          tags: ["数组", "可选"],
+        },
+        {
+          key: "unit",
+          label: "单位",
+          type: "数组",
+          required: true,
+          description: "明细行单位数组。",
+          tags: ["数组", "可选"],
+        },
+        {
+          key: "quantity",
+          label: "数量",
+          type: "数组",
+          required: true,
+          description: "明细行数量数组。",
+          tags: ["数组", "可选"],
+        },
+        {
+          key: "unitPrice",
+          label: "单价",
+          type: "数组",
+          required: true,
+          description: "明细行单价数组。",
+          tags: ["数组", "可选"],
+        },
+        {
+          key: "amount",
+          label: "金额",
+          type: "数组",
+          required: true,
+          description: "明细行金额数组。",
+          tags: ["数组", "业务核心"],
+        },
+        {
+          key: "taxRate",
+          label: "税率",
+          type: "数组",
+          required: true,
+          description: "明细行税率数组。",
+          tags: ["数组", "业务核心"],
+        },
+        {
+          key: "taxAmount",
+          label: "税额",
+          type: "数组",
+          required: true,
+          description: "明细行税额数组。",
+          tags: ["数组", "业务核心"],
+        },
+      ],
+    },
+    {
+      title: "合计与人员信息",
+      description: "用于读取票面合计金额、备注和票面人员信息。",
+      fields: [
+        {
+          key: "totalAmount",
+          label: "合计金额",
+          type: "字符串",
+          required: true,
+          description: "票面金额合计。",
+          tags: ["业务核心"],
+        },
+        {
+          key: "totalTaxAmount",
+          label: "合计税额",
+          type: "字符串",
+          required: true,
+          description: "票面税额合计。",
+          tags: ["业务核心"],
+        },
+        {
+          key: "capitalPriceAndTax",
+          label: "价税合计大写",
+          type: "字符串",
+          required: true,
+          description: "价税合计大写金额。",
+          tags: ["业务核心"],
+        },
+        {
+          key: "lowerPriceAndTax",
+          label: "价税合计小写",
+          type: "字符串",
+          required: true,
+          description: "价税合计小写金额。",
+          tags: ["业务核心"],
+        },
+        {
+          key: "notes",
+          label: "备注",
+          type: "字符串",
+          required: true,
+          description: "票面备注信息。",
+          tags: ["可选"],
+        },
+        {
+          key: "recipient",
           label: "收款人",
           type: "字符串",
-          required: false,
+          required: true,
           description: "票面收款人。",
           tags: ["可选"],
         },
         {
-          key: "FH",
-          label: "复核",
+          key: "reviewer",
+          label: "复核人",
           type: "字符串",
-          required: false,
+          required: true,
           description: "票面复核人。",
           tags: ["可选"],
         },
         {
-          key: "KPR",
+          key: "drawer",
           label: "开票人",
           type: "字符串",
-          required: false,
+          required: true,
           description: "票面开票人。",
           tags: ["可选"],
         },
         {
-          key: "XH",
-          label: "序号",
+          key: "machineNumber",
+          label: "机器号码",
           type: "字符串",
-          required: false,
-          description: "明细行序号。",
+          required: true,
+          description: "票面机器号码字段。",
           tags: ["可选"],
-        },
-        {
-          key: "HWMC",
-          label: "货物名称",
-          type: "字符串",
-          required: false,
-          description: "货物或应税劳务、服务名称。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "GGXH",
-          label: "规格型号",
-          type: "字符串",
-          required: false,
-          description: "明细行规格型号。",
-          tags: ["可选"],
-        },
-        {
-          key: "DW",
-          label: "单位",
-          type: "字符串",
-          required: false,
-          description: "明细行单位。",
-          tags: ["可选"],
-        },
-        {
-          key: "SL",
-          label: "数量",
-          type: "字符串",
-          required: false,
-          description: "明细行数量。",
-          tags: ["可选"],
-        },
-        {
-          key: "DJ",
-          label: "单价",
-          type: "字符串",
-          required: false,
-          description: "明细行单价。",
-          tags: ["可选"],
-        },
-        {
-          key: "JE",
-          label: "金额",
-          type: "字符串",
-          required: false,
-          description: "明细行金额。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "SLV",
-          label: "税率",
-          type: "字符串",
-          required: false,
-          description: "明细行税率。",
-          tags: ["业务核心"],
-        },
-        {
-          key: "SE",
-          label: "税额",
-          type: "字符串",
-          required: false,
-          description: "明细行税额。",
-          tags: ["业务核心"],
         },
       ],
     },
   ],
   response: {
     overview:
-      "增值税发票接口返回通用 OCR 结果结构，并在 FieldList 中提供票面基础信息、购销方、金额合计和明细行字段。",
-    commonGroups: commonResponseGroups,
+      "增值税发票接口采用新版 JSON 结果结构，先读取顶层 errCode / errMsg，再进入 result.ocrResult 获取票面字段。",
+    commonGroups: vatInvoiceResponseGroups,
+    path: ["result", "ocrResult"],
   },
-  errors: commonErrorFields,
-  visual: {
-    kind: "invoice",
-    coverAlt: "规范化增值税发票示意卡片",
-    detailAlt: "增值税发票字段解剖示意图",
-    annotations: ["发票代码", "发票号码", "开票日期", "购销方", "价税合计"],
+  errors: vatInvoiceErrorFields,
+  sourcePdf: {
+    title: "增值税发票识别",
+    fileName: "银联商务开放平台--增值税发票识别.pdf",
+    href: sourcePdfAssets.vatInvoice,
   },
   relatedSlugs: ["train-ticket", "taxi-invoice", "itinerary-receipt", "motor-vehicle-invoice"],
+  requestExample: {
+    header: {
+      Authorization: 'OPEN-ACCESS-TOKEN AccessToken="<access-token>"',
+      "Content-Type": "application/json",
+    },
+    body: {
+      data: {
+        requestID: "5b35ca29-a008-4ed2-b190-98f3ba798dd12",
+      },
+      picBase64: "<base64-image-payload>",
+    },
+  },
+  responseExample: {
+    errCode: "AN000000",
+    errMsg: "成功",
+    result: {
+      code: "AN000000",
+      msg: "Success",
+      ocrResult: {
+        invoiceName: "电子发票（普通发票）",
+        invoiceCode: "05878685",
+        invoiceNumber: "25442000000340962573",
+        invoiceDate: "2025年06月10日",
+        checkCode: "660639276504131322121",
+        machineNo: "",
+        buyerName: "李博",
+        buyerNumber: "3704021963961020233",
+        buyerAddressAndPhone: "",
+        buyerBankAndAccount: "",
+        passwordArea: "",
+        sellerName: "江门市乔帮主科技有限责任公司",
+        sellerNumber: "91440703095877920J",
+        sellerAddressAndPhone: "",
+        sellerBankAndAccount: "",
+        projectName: ["手机"],
+        specModel: ["PTP-AN10"],
+        unit: ["台"],
+        quantity: ["1"],
+        unitPrice: ["5308"],
+        amount: ["5308"],
+        taxRate: ["13%"],
+        taxAmount: ["690"],
+        totalAmount: "5308",
+        totalTaxAmount: "690",
+        capitalPriceAndTax: "伍仟叁佰零捌圆整",
+        lowerPriceAndTax: "5308.00",
+        notes: "IMEI1:6686442, 享受补贴金额：500",
+        recipient: "",
+        reviewer: "",
+        drawer: "封禅",
+        machineNumber: "",
+        QRCode: ["01", "32", "", "24142000000083955587", "80.00", "20241119", "", "8B63"],
+      },
+      respondID: "0fc3911c-2530-4710-b6e5-b81de0ad6ab5",
+    },
+  },
 };
 
 export const docs: OcrInterfaceDoc[] = [idcardDoc, vatInvoiceDoc];
 
 export const docsBySlug = new Map(docs.map((doc) => [doc.slug, doc]));
 
-export const interfaceCatalog: InterfaceCard[] = [
+const interfaceCatalogSeed: InterfaceCardSeed[] = [
   {
     slug: "idcard",
     title: "二代证（人像页+国徽页）",
-    category: "证照身份类",
     summary: "提取姓名、身份证号码、住址、签发机关和有效期限。",
     previewFields: ["姓名", "身份证号码", "地址", "签发机关", "有效期限"],
     visualKind: "idcard",
@@ -797,7 +1242,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "bankcard",
     title: "银行卡",
-    category: "证照身份类",
     summary: "提取银行卡号、银行卡名称、发卡行和卡类型。",
     previewFields: ["银行卡号", "发卡行", "卡类型", "有效期"],
     visualKind: "document",
@@ -806,7 +1250,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "social-security-card",
     title: "社保卡",
-    category: "证照身份类",
     summary: "提取姓名、社会保障号、银行卡号、发卡日期和有效期。",
     previewFields: ["姓名", "社会保障号", "银行卡号", "有效期"],
     visualKind: "document",
@@ -815,7 +1258,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "vat-invoice",
     title: "增值税发票",
-    category: "发票票据类",
     summary: "提取发票代码、号码、购销方、价税合计和明细行。",
     previewFields: ["发票代码", "发票号码", "购方名称", "销方名称", "价税合计"],
     visualKind: "invoice",
@@ -824,7 +1266,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "train-ticket",
     title: "火车票",
-    category: "发票票据类",
     summary: "提取出发站、到达站、车次、开车时间、票价和乘车人。",
     previewFields: ["出发站", "到达站", "车次", "票价"],
     visualKind: "ticket",
@@ -833,7 +1274,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "taxi-invoice",
     title: "出租车票",
-    category: "发票票据类",
     summary: "提取发票代码、号码、上下车时间、里程、金额合计。",
     previewFields: ["发票代码", "金额合计", "里程", "上车时间"],
     visualKind: "ticket",
@@ -842,7 +1282,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "receipt-ocr",
     title: "小票识别",
-    category: "发票票据类",
     summary: "参考新增资料中的小票识别能力，适合交易小票、消费凭证等字段展示。",
     previewFields: ["商户名称", "交易时间", "金额", "流水号"],
     visualKind: "ticket",
@@ -851,7 +1290,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "itinerary-receipt",
     title: "航空电子行程单",
-    category: "发票票据类",
     summary: "提取旅客姓名、电子客票号、票价、燃油附加费和合计。",
     previewFields: ["旅客姓名", "电子客票号", "票价", "合计"],
     visualKind: "ticket",
@@ -860,25 +1298,78 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "railway-eticket",
     title: "铁路电子客票识别服务",
-    category: "发票票据类",
     summary: "参考新增资料中的铁路电子客票能力，后续按正式文档导入字段。",
     previewFields: ["乘车人", "车次", "出发站", "到达站", "票价"],
     visualKind: "ticket",
     status: "planned",
   },
   {
+    slug: "financial-ticket-mixed",
+    title: "财务票据混合识别",
+    summary: "识别多类型财务票据，适合报销、入账和票据归档场景。",
+    previewFields: ["票据类型", "票据号码", "开票日期", "金额合计"],
+    visualKind: "ticket",
+    status: "planned",
+  },
+  {
+    slug: "handwritten-signature",
+    title: "手写签名识别",
+    summary: "识别票据或表单中的手写签名区域与签名结果。",
+    previewFields: ["签名区域", "签名结果", "置信度", "坐标"],
+    visualKind: "text",
+    status: "planned",
+  },
+  {
+    slug: "tax-payment-certificate",
+    title: "完税证明",
+    summary: "提取完税证明中的纳税人、税种、税款所属期和实缴金额。",
+    previewFields: ["纳税人名称", "税款所属期", "税种", "实缴金额"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
+    slug: "departure-tax-refund",
+    title: "离境退税申请单",
+    summary: "识别离境退税申请单中的旅客、商品金额、退税金额和申请信息。",
+    previewFields: ["申请单号", "旅客姓名", "商品金额", "退税金额"],
+    visualKind: "invoice",
+    status: "planned",
+  },
+  {
+    slug: "customs-declaration",
+    title: "海关报关单",
+    summary: "提取海关报关单中的报关单号、经营单位、运输方式和申报日期。",
+    previewFields: ["报关单号", "经营单位", "运输方式", "申报日期"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
     slug: "business-license",
     title: "营业执照",
-    category: "商户经营类",
     summary: "提取统一社会信用代码、企业名称、法人、注册资本和经营范围。",
     previewFields: ["统一社会信用代码", "企业名称", "法人", "经营范围"],
     visualKind: "document",
     status: "planned",
   },
   {
+    slug: "institution-legal-person-certificate",
+    title: "事业单位法人证书",
+    summary: "提取事业单位法人证书中的单位名称、统一社会信用代码、法定代表人和有效期。",
+    previewFields: ["统一社会信用代码", "单位名称", "法定代表人", "有效期"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
+    slug: "seal-ocr",
+    title: "印章识别",
+    summary: "识别印章文本、印章类型、位置坐标和置信度。",
+    previewFields: ["印章文本", "印章类型", "置信度", "坐标"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
     slug: "number-plates",
     title: "车牌识别",
-    category: "车辆交通类",
     summary: "识别车辆号牌信息。",
     previewFields: ["车牌号码", "号牌颜色"],
     visualKind: "vehicle",
@@ -887,7 +1378,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "driver-license",
     title: "驾驶证识别",
-    category: "车辆交通类",
     summary: "提取姓名、证号、准驾车型、有效期限和地址。",
     previewFields: ["姓名", "证号", "准驾车型", "有效期限"],
     visualKind: "document",
@@ -896,7 +1386,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "vehicle-license",
     title: "行驶证识别",
-    category: "车辆交通类",
     summary: "提取号牌号码、车辆类型、所有人、VIN、发动机号。",
     previewFields: ["号牌号码", "车辆类型", "VIN", "发动机号"],
     visualKind: "vehicle",
@@ -905,7 +1394,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "vin",
     title: "VIN",
-    category: "车辆交通类",
     summary: "识别车辆识别代号并返回校验规则状态。",
     previewFields: ["车架号", "校验状态"],
     visualKind: "vehicle",
@@ -914,7 +1402,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "passport",
     title: "护照",
-    category: "证照身份类",
     summary: "提取护照号码、姓名、机读码、出生地点和签发地点。",
     previewFields: ["护照号码", "姓名", "机读码", "签发地点"],
     visualKind: "document",
@@ -923,7 +1410,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "household-register",
     title: "户口本",
-    category: "证照身份类",
     summary: "提取户主、户号、住址、成员姓名和户主关系。",
     previewFields: ["户主姓名", "户号", "住址", "成员姓名"],
     visualKind: "document",
@@ -932,7 +1418,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "marriage-certificate",
     title: "结婚证",
-    category: "证照身份类",
     summary: "提取持证人、登记日期、证字号和双方身份信息。",
     previewFields: ["持证人", "登记日期", "证字号", "姓名"],
     visualKind: "document",
@@ -941,34 +1426,70 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "account-opening-license",
     title: "开户许可",
-    category: "商户经营类",
     summary: "提取核准号、开户名称、开户银行、账号和法人信息。",
     previewFields: ["核准号", "开户名称", "开户银行", "账号"],
     visualKind: "document",
     status: "planned",
   },
   {
+    slug: "basic-deposit-account",
+    title: "基本存款账户信息",
+    summary: "提取基本存款账户信息中的账户名称、账号、开户银行和法定代表人。",
+    previewFields: ["账户名称", "账号", "开户银行", "法定代表人"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
     slug: "mainland-travel-permit-for-gat",
     title: "港澳台居民来往大陆通行证",
-    category: "证照身份类",
     summary: "提取中文名、英文名、证件号码、有效期限和签发机关。",
     previewFields: ["中文名", "英文名", "证件号码", "有效期限"],
     visualKind: "document",
     status: "planned",
   },
   {
+    slug: "organization-code-certificate",
+    title: "组织机构代码证",
+    summary: "提取组织机构代码证中的机构代码、机构名称、地址和有效期限。",
+    previewFields: ["组织机构代码", "机构名称", "地址", "有效期限"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
+    slug: "export-license",
+    title: "中国出口许可证",
+    summary: "提取出口许可证号、出口商、商品名称和有效期限等关键信息。",
+    previewFields: ["许可证号", "出口商", "商品名称", "有效期限"],
+    visualKind: "document",
+    status: "planned",
+  },
+  {
     slug: "motor-vehicle-certificate",
     title: "机动车合格证",
-    category: "车辆交通类",
     summary: "提取合格证编号、车辆制造企业、车辆型号和车架号。",
     previewFields: ["合格证编号", "车辆型号", "车架号", "发证日期"],
     visualKind: "vehicle",
     status: "planned",
   },
   {
+    slug: "electric-bicycle-certificate",
+    title: "电动自行车合格证",
+    summary: "提取电动自行车合格证中的合格证编号、车辆型号、整车编码和生产日期。",
+    previewFields: ["合格证编号", "车辆型号", "整车编码", "生产日期"],
+    visualKind: "vehicle",
+    status: "planned",
+  },
+  {
+    slug: "motorcycle-certificate",
+    title: "摩托车合格证",
+    summary: "提取摩托车合格证中的合格证编号、车辆型号、车架号和发动机号。",
+    previewFields: ["合格证编号", "车辆型号", "车架号", "发动机号"],
+    visualKind: "vehicle",
+    status: "planned",
+  },
+  {
     slug: "motor-vehicle-registration-certificate",
     title: "机动车登记证识别",
-    category: "车辆交通类",
     summary: "参考新增资料中的机动车登记证识别能力，后续按正式文档补齐字段。",
     previewFields: ["登记证编号", "车辆识别代号", "所有人", "登记日期"],
     visualKind: "vehicle",
@@ -977,7 +1498,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "trade-in-recycle-voucher",
     title: "以旧换新回收凭单识别",
-    category: "车辆交通类",
     summary: "参考新增资料中的以旧换新回收凭单识别能力，适合补贴和回收业务资料归档。",
     previewFields: ["凭单编号", "车牌号", "回收企业", "回收日期"],
     visualKind: "vehicle",
@@ -986,7 +1506,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "gat-pass-front",
     title: "往来港澳通行证正面",
-    category: "证照身份类",
     summary: "提取出生日期、签发地点、编号、中文姓名、英文姓名。",
     previewFields: ["中文姓名", "英文姓名", "编号", "有效期限"],
     visualKind: "document",
@@ -995,7 +1514,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "gat-pass-back",
     title: "往来港澳通行证背面",
-    category: "证照身份类",
     summary: "提取往来香港/澳门签注种类、有效期和备注信息。",
     previewFields: ["签注种类", "签注有效期", "签注备注"],
     visualKind: "document",
@@ -1004,7 +1522,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "universal-identification-text",
     title: "通用识别-文本",
-    category: "通用文本类",
     summary: "识别通用文本版面，返回页面、段落、行和文本坐标信息。",
     previewFields: ["页码", "页宽", "页高", "文本行"],
     visualKind: "text",
@@ -1013,16 +1530,30 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "universal-identification-handwriting",
     title: "通用识别-手写",
-    category: "通用文本类",
     summary: "识别手写文本版面，返回页面、段落、行和文本坐标信息。",
     previewFields: ["页码", "手写文本", "文本行", "坐标"],
     visualKind: "text",
     status: "planned",
   },
   {
+    slug: "paddleocr-general",
+    title: "PaddleOCR通用识别",
+    summary: "识别通用版面文本，返回文本内容、文本行、坐标和置信度。",
+    previewFields: ["文本内容", "文本行", "坐标", "置信度"],
+    visualKind: "text",
+    status: "planned",
+  },
+  {
+    slug: "barcode-ocr",
+    title: "条形码识别",
+    summary: "识别图片中的条形码或二维码内容，并返回条码类型、位置和置信度。",
+    previewFields: ["条码内容", "条码类型", "坐标", "置信度"],
+    visualKind: "text",
+    status: "planned",
+  },
+  {
     slug: "real-estate-certificate",
     title: "不动产权证",
-    category: "地产凭证类",
     summary: "提取登记日期、编号、权利人、坐落、不动产单元号。",
     previewFields: ["登记日期", "权利人", "坐落", "不动产单元号"],
     visualKind: "document",
@@ -1031,7 +1562,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "real-estate-registration-certificate",
     title: "不动产登记证",
-    category: "地产凭证类",
     summary: "提取权利人、义务人、坐落、不动产单元号和证明事项。",
     previewFields: ["权利人", "义务人", "坐落", "证明事项"],
     visualKind: "document",
@@ -1040,7 +1570,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "motor-vehicle-invoice",
     title: "机动车发票",
-    category: "车辆交通类",
     summary: "提取发票代码、号码、购方名称、厂牌型号、车辆类型。",
     previewFields: ["发票代码", "购方名称", "厂牌型号", "车辆类型"],
     visualKind: "invoice",
@@ -1049,7 +1578,6 @@ export const interfaceCatalog: InterfaceCard[] = [
   {
     slug: "used-car-invoice",
     title: "二手车发票",
-    category: "车辆交通类",
     summary: "提取发票代码、号码、购销方、车牌照号和车辆价款。",
     previewFields: ["发票代码", "购方单位", "销方名称", "车牌照号"],
     visualKind: "invoice",
@@ -1057,6 +1585,11 @@ export const interfaceCatalog: InterfaceCard[] = [
   },
 ];
 
-export const categories = Array.from(new Set(interfaceCatalog.map((item) => item.category)));
+export const interfaceCatalog: InterfaceCard[] = interfaceCatalogSeed.map((item) => ({
+  ...item,
+  category: categoryBySlug[item.slug],
+}));
+
+export const categories = [...generatedCategories];
 
 export const getCardBySlug = (slug: string) => interfaceCatalog.find((item) => item.slug === slug);

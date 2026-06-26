@@ -1,4 +1,9 @@
 node_modules/
+.tools/
+.codex-temp/
+output/
+项目回收站/
+tmp/
 dist/
 .DS_Store
 *.local
@@ -14,8 +19,11 @@ OCRapi/
 其他/
 
 # Generated or duplicate artifacts.
+.codex-screens/
 docs-source/ocr-interfaces/archive/
+docs-source/ocr-interfaces/latest/extracted/
 交付/*.png
+交付/**/*.png
 tmp-*.png
 tmp-*.jpg
 src/assets/thumbs/ocr-thumbnail-sheet.png

@@ -8,7 +8,12 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "serve:static": "node scripts/static-server.cjs",
-    "sync:ocr-docs": "node scripts/sync-ocr-docs.mjs"
+    "build:interface-classification": "node scripts/build-interface-classification.mjs",
+    "sync:ocr-docs": "node scripts/sync-ocr-docs.mjs",
+    "extract:ocr-source-map": "node scripts/build-ocr-source-map.mjs",
+    "validate:ocr-catalog": "node scripts/build-ocr-source-map.mjs --check-catalog",
+    "optimize:home-assets": "node scripts/optimize-home-assets.mjs",
+    "compat:pc": "npm run build && node scripts/capture-pc-compat.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
@@ -21,6 +26,8 @@
   "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "playwright": "^1.55.1",
+    "sharp": "^0.34.5",
     "typescript": "^5.6.3"
   }
 }

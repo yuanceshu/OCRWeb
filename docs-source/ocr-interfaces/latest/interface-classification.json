@@ -1,0 +1,76 @@
+{
+  "version": "2026-05-29",
+  "taxonomy": [
+    { "code": "IDN", "label": "个人身份类" },
+    { "code": "ACC", "label": "账户金融类" },
+    { "code": "ENT", "label": "企业资质类" },
+    { "code": "TAX", "label": "财税报销类" },
+    { "code": "TRV", "label": "出行票证类" },
+    { "code": "TRD", "label": "贸易关务类" },
+    { "code": "VEH", "label": "车辆档案类" },
+    { "code": "TXT", "label": "通用文字类" },
+    { "code": "EST", "label": "不动产类" }
+  ],
+  "records": [
+    { "slug": "idcard", "categoryCode": "IDN", "recordId": "IDN-001" },
+    { "slug": "social-security-card", "categoryCode": "IDN", "recordId": "IDN-002" },
+    { "slug": "passport", "categoryCode": "IDN", "recordId": "IDN-003" },
+    { "slug": "household-register", "categoryCode": "IDN", "recordId": "IDN-004" },
+    { "slug": "marriage-certificate", "categoryCode": "IDN", "recordId": "IDN-005" },
+    { "slug": "mainland-travel-permit-for-gat", "categoryCode": "IDN", "recordId": "IDN-006" },
+    { "slug": "gat-pass-front", "categoryCode": "IDN", "recordId": "IDN-007" },
+    { "slug": "gat-pass-back", "categoryCode": "IDN", "recordId": "IDN-008" },
+    { "slug": "bankcard", "categoryCode": "ACC", "recordId": "ACC-001" },
+    { "slug": "account-opening-license", "categoryCode": "ACC", "recordId": "ACC-002" },
+    { "slug": "basic-deposit-account", "categoryCode": "ACC", "recordId": "ACC-003" },
+    { "slug": "business-license", "categoryCode": "ENT", "recordId": "ENT-001" },
+    {
+      "slug": "institution-legal-person-certificate",
+      "categoryCode": "ENT",
+      "recordId": "ENT-002"
+    },
+    { "slug": "organization-code-certificate", "categoryCode": "ENT", "recordId": "ENT-003" },
+    { "slug": "seal-ocr", "categoryCode": "ENT", "recordId": "ENT-004" },
+    { "slug": "vat-invoice", "categoryCode": "TAX", "recordId": "TAX-001" },
+    { "slug": "receipt-ocr", "categoryCode": "TAX", "recordId": "TAX-002" },
+    { "slug": "financial-ticket-mixed", "categoryCode": "TAX", "recordId": "TAX-003" },
+    { "slug": "tax-payment-certificate", "categoryCode": "TAX", "recordId": "TAX-004" },
+    { "slug": "departure-tax-refund", "categoryCode": "TAX", "recordId": "TAX-005" },
+    { "slug": "taxi-invoice", "categoryCode": "TAX", "recordId": "TAX-006" },
+    { "slug": "train-ticket", "categoryCode": "TRV", "recordId": "TRV-001" },
+    { "slug": "railway-eticket", "categoryCode": "TRV", "recordId": "TRV-002" },
+    { "slug": "itinerary-receipt", "categoryCode": "TRV", "recordId": "TRV-003" },
+    { "slug": "customs-declaration", "categoryCode": "TRD", "recordId": "TRD-001" },
+    { "slug": "export-license", "categoryCode": "TRD", "recordId": "TRD-002" },
+    { "slug": "number-plates", "categoryCode": "VEH", "recordId": "VEH-001" },
+    { "slug": "driver-license", "categoryCode": "VEH", "recordId": "VEH-002" },
+    { "slug": "vehicle-license", "categoryCode": "VEH", "recordId": "VEH-003" },
+    { "slug": "vin", "categoryCode": "VEH", "recordId": "VEH-004" },
+    { "slug": "motor-vehicle-certificate", "categoryCode": "VEH", "recordId": "VEH-005" },
+    { "slug": "electric-bicycle-certificate", "categoryCode": "VEH", "recordId": "VEH-006" },
+    { "slug": "motorcycle-certificate", "categoryCode": "VEH", "recordId": "VEH-007" },
+    {
+      "slug": "motor-vehicle-registration-certificate",
+      "categoryCode": "VEH",
+      "recordId": "VEH-008"
+    },
+    { "slug": "trade-in-recycle-voucher", "categoryCode": "VEH", "recordId": "VEH-009" },
+    { "slug": "motor-vehicle-invoice", "categoryCode": "VEH", "recordId": "VEH-010" },
+    { "slug": "used-car-invoice", "categoryCode": "VEH", "recordId": "VEH-011" },
+    { "slug": "handwritten-signature", "categoryCode": "TXT", "recordId": "TXT-001" },
+    { "slug": "universal-identification-text", "categoryCode": "TXT", "recordId": "TXT-002" },
+    {
+      "slug": "universal-identification-handwriting",
+      "categoryCode": "TXT",
+      "recordId": "TXT-003"
+    },
+    { "slug": "paddleocr-general", "categoryCode": "TXT", "recordId": "TXT-004" },
+    { "slug": "barcode-ocr", "categoryCode": "TXT", "recordId": "TXT-005" },
+    { "slug": "real-estate-certificate", "categoryCode": "EST", "recordId": "EST-001" },
+    {
+      "slug": "real-estate-registration-certificate",
+      "categoryCode": "EST",
+      "recordId": "EST-002"
+    }
+  ]
+}

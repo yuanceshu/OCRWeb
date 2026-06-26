@@ -1,80 +1,242 @@
-# OCR Archive Atlas - DESIGN.md
+# OCRWeb 视觉风格实现规范
 
-> A paper archive interface laid over a deep blue dossier cloth: warm parchment cards, serif catalogue titles, stamped document specimens, tabbed dividers, and compact OCR metadata laid out like an index desk.
+> 本文件用于指导 OCRWeb 后续前端实现的画面风格：纸质档案、深蓝档案布板、OCR 文档图鉴。它约束色彩、材质、字体气质、装饰边界和代码实现方式，不约定页面结构比例、固定布局网格或组件数量。
 
-**Theme:** light, archival, document-first  
-**Refero basis:** Slite "Warm parchment editorial desk" as the closest base, with Granola "Field notes on warm parchment" for hairline note-card structure and Calendly "Sky Blueprint on Bright Paper" for the disciplined deep-blue accent system.
+## 文档定位
 
-## North Star
+`PROJECT_VISION.md` 定义产品目标：OCRWeb 是帮助用户理解 OCR 能力、字段来源和接入方式的能力中心。本文定义这套产品目标对应的视觉系统。
 
-This product should feel like an official OCR archive cabinet opened on a work desk. The interface is not a generic SaaS dashboard. It is a catalogue, dossier, and index system: precise enough for API documentation, warm enough to feel handled by humans, and tactile enough that every card reads like a real record.
+参考设计图只用于提炼画面风格，不是固定布局模板。后续页面可以根据实际信息架构重新组织结构，但必须保持以下视觉判断：
 
-The primary mood is "catalogued paper on blue archive board." Use warm off-white surfaces, navy cloth-like framing, printed borders, small labels, metadata chips, stamps, tabs, clips, and document thumbnails. Keep the experience functional and scannable; the archival styling should organize information, not bury it.
+- 页面应像一个真实的纸质 OCR 档案系统，而不是通用 SaaS 仪表盘。
+- 深蓝档案布板和暖色纸面是核心识别特征。
+- OCR 材料、字段、接口、场景和接入信息始终是主角，装饰只能帮助组织信息。
+- 真实纸张、布面、印章、胶带、夹子、装订环等材质细节应服务“档案图鉴”隐喻。
+- 不能回退到科技霓虹、玻璃拟态、纯白后台、营销落地页或普通接口列表。
 
-## Design Tokens
+## 视觉北极星
 
-### Colors
+整体气质应是“蓝色档案板上的编目纸张”。用户打开页面时，应感觉自己在浏览一套被整理过的 OCR 档案：有纸面、有索引、有样本、有标签、有文档痕迹，也有清晰的接口信息。
 
-| Name | Value | Token | Role |
+这套风格需要同时满足三点：
+
+- **正式**：像内部能力中心或档案柜，可信、克制、可用于接口文档。
+- **可读**：信息密度可以高，但文本、字段、按钮和状态必须清楚。
+- **有触感**：关键表面应有真实纸张或布面质感，不靠纯色块和渐变冒充材质。
+
+## 色彩系统
+
+### 基础色
+
+| 名称 | 值 | Token | 使用角色 |
 | --- | --- | --- | --- |
-| Archive Navy | `#193d6a` | `--color-archive-navy` | Primary frame, active tabs, CTA buttons, strong document labels |
-| Blueprint Blue | `#275889` | `--color-blueprint-blue` | Secondary panels, side rails, icons, hovered controls |
-| Faded Denim | `#6f89a8` | `--color-faded-denim` | Muted blue borders, secondary icon strokes, inactive dividers |
-| Parchment | `#f6efe4` | `--color-parchment` | Page/card ground, hero paper, document surfaces |
-| Vellum | `#fbf7ef` | `--color-vellum` | Raised card surfaces and input fields |
-| Aged Edge | `#d9cbb7` | `--color-aged-edge` | Paper borders, torn-edge shadows, separators |
-| Ink | `#1f2b3d` | `--color-ink` | Primary text and serif headings |
-| Typewriter Gray | `#625b52` | `--color-typewriter-gray` | Secondary text, descriptions, metadata |
-| Stamp Blue | `#244b82` | `--color-stamp-blue` | Circular stamp graphics, selected states, seal marks |
-| Tag Amber | `#b36b21` | `--color-tag-amber` | Ticket/invoice category badges |
-| Evidence Green | `#3f6f5a` | `--color-evidence-green` | License/business category badges |
-| Tape Beige | `#e7dac4` | `--color-tape-beige` | Tape strips, inactive tabs, clipped label backgrounds |
-| Warning Red | `#9b3f35` | `--color-warning-red` | Rare error states, destructive alerts, red stamp accents |
+| 档案海军蓝 | `#193d6a` | `--color-archive-navy` | 主结构色、主要按钮、激活状态、强标签、深色文字强调 |
+| 蓝图蓝 | `#275889` | `--color-blueprint-blue` | 次级蓝色面、悬停态、图标、辅助按钮、局部强调 |
+| 褪色丹宁蓝 | `#6f89a8` | `--color-faded-denim` | 弱边框、辅助线、非激活分隔、低权重蓝色图标 |
+| 羊皮纸 | `#f6efe4` | `--color-parchment` | 页面纸面、普通卡片底、文档底色 |
+| 仿羊皮浅纸 | `#fbf7ef` | `--color-vellum` | 抬升纸面、输入框、浅色控件、需要更干净阅读的区域 |
+| 旧纸边 | `#d9cbb7` | `--color-aged-edge` | 纸张边缘、分隔线、撕边、浅阴影边界 |
+| 墨色 | `#1f2b3d` | `--color-ink` | 主文本、标题、重要数据 |
+| 打字机灰 | `#625b52` | `--color-typewriter-gray` | 次级文本、描述、元数据、说明文字 |
+| 印章蓝 | `#244b82` | `--color-stamp-blue` | 印章、选中态、焦点环、确认性图形标记 |
+| 标签琥珀 | `#b36b21` | `--color-tag-amber` | 票据、发票、交易、金额相关分类标签 |
+| 凭证绿 | `#3f6f5a` | `--color-evidence-green` | 证照、工商、资质、身份类分类标签 |
+| 胶带米色 | `#e7dac4` | `--color-tape-beige` | 胶带、纸贴、未激活标签、夹贴背景 |
+| 警示红 | `#9b3f35` | `--color-warning-red` | 错误、危险、异常、红章式提示 |
 
-### Typography
+### 使用规则
 
-Use a print-like pairing:
+- 主画面应由深蓝布面和暖纸面共同构成，不能只剩一片白色或一片蓝色。
+- 深蓝用于结构、边界和强调，不宜把大面积内容区做成纯蓝信息面板。
+- 纸面色必须偏暖、偏旧，避免纯白 `#ffffff` 成为主要页面底色。
+- 墨色代替纯黑，正文不要使用 `#000000`。
+- 琥珀、绿色、红色只用于小面积状态、分类和提示，不要扩展成大面积主题色。
+- 蓝色之间要有层级：`Archive Navy` 负责权威感，`Blueprint Blue` 负责交互和辅助，`Faded Denim` 负责低权重线条。
 
-| Use | Font Direction | Size/Weight | Notes |
-| --- | --- | --- | --- |
-| Display catalogue title | Serif, Songti/Noto Serif SC/Georgia fallback | 48-72px, 700 | Large OCR/catalogue headings; tight but readable |
-| Section heading | Serif | 24-32px, 700 | Index titles, archive summary headings |
-| Card title | Serif or sturdy sans | 18-22px, 700 | Document/API names |
-| Body and UI | Humanist sans, Noto Sans SC/Inter fallback | 14-16px, 400-600 | Documentation text, labels, navigation |
-| Metadata/code | Monospace, JetBrains Mono/Consolas fallback | 12-13px, 500 | IDs like `ID-001`, endpoint names, field keys |
+## 字体与印刷感
 
-Letter spacing should stay normal. Do not use viewport-scaled type. Large Chinese headings need generous line height around `1.15`; dense card text should sit around `1.45`.
+视觉应接近“印刷档案”和“中文目录”，不是现代营销站。
 
-### Spacing
-
-Base unit: `8px`.
-
-| Token | Value | Role |
+| 用途 | 字体方向 | 建议 |
 | --- | --- | --- |
-| `--space-xs` | `4px` | Chip gaps, icon gaps |
-| `--space-sm` | `8px` | Compact card internals |
-| `--space-md` | `16px` | Standard component padding |
-| `--space-lg` | `24px` | Card gutters and panel padding |
-| `--space-xl` | `32px` | Section separation |
-| `--space-2xl` | `48px` | Hero and major canvas rhythm |
+| 产品名、大标题、目录标题 | 中文衬线，优先 `Noto Serif SC`、`Songti SC`、`STSong`、Georgia 回退 | 用于建立档案和图鉴气质 |
+| 模块标题、卡片标题 | 衬线或稳重无衬线 | 标题要清楚，不追求潮流感 |
+| 正文、导航、按钮、说明 | 中文无衬线，优先 `Noto Sans SC`、`Microsoft YaHei`、系统无衬线 | 保持可读和稳定 |
+| 接口名、字段名、编号、代码 | 等宽字体，优先 `JetBrains Mono`、Consolas、monospace | 用于 API、字段、ID、状态编号 |
 
-Prefer dense but breathable layouts. The screenshot's feeling comes from many small pieces arranged with a consistent archive-grid rhythm, not from giant empty marketing sections.
+字体实现规则：
 
-### Shape
+- 不使用视口宽度驱动字号。
+- 字距保持正常，不使用负字距。
+- 中文大标题行高应充足，避免衬线字体上下拥挤。
+- 密集字段和说明文字优先保证扫描效率，不为了装饰牺牲可读性。
+- 英文小字可以作为档案标签辅助，但中文信息必须是主阅读层。
 
-| Element | Radius | Notes |
+## 材质系统
+
+### 核心原则
+
+关键拟物表面必须来自位图材质或现有图片资产。CSS 渐变可以用于压暗、提亮、光影和层次叠加，但不能替代纸张、布面、卡片、胶带这类真实材质。
+
+如果某个材质看起来脏、线条杂、噪声过强，应优先生成或替换更干净的素材，不要用低质渐变或半透明色块硬盖。
+
+### 推荐实现路线
+
+本项目不适合走“纯 CSS 程序化纹理”为主的路线。当前风格的识别点是纸质档案、蓝色布板、纸卡、胶带、印章和样本材料，关键质感应由真实位图素材建立，CSS 只负责结构、层次、光影和交互状态。
+
+推荐采用分层材质系统：
+
+```text
+底层：蓝色档案布板位图，建立整体工作台和档案夹气质。
+中层：纸张、记录卡、标题条等 alpha 素材，负责真实轮廓、边缘和纸片形态。
+纹理层：小尺寸、低噪声、可复用的纸纹或布纹，用于统一表面质感。
+CSS 层：边框、短阴影、压暗、高光、hover、focus 和布局响应。
+```
+
+具体判断：
+
+- 大面积布面背景可以使用位图素材，但应压缩和控制尺寸，不要用未优化大 PNG 长期作为最终交付资源。
+- 主要纸面容器不要只用 `linear-gradient()` 或纯色块模拟；应使用纸张 alpha 素材、纸纹素材、伪元素或 `border-image` 形成真实纸边。
+- 可重复平铺只适合布纹、纸纤维、颗粒、轻微噪声这类无明显方向和形状的纹理。
+- 撕边、胶带、印章、装订环、夹子和特定纸张外轮廓不应平铺；它们应作为独立装饰素材或容器边缘素材使用。
+- 不要把整页或大模块做成一张完整背景截图；页面仍应由可维护的结构化组件和局部材质资产组合而成。
+- 如果材质观感不对，优先治理素材本身，例如重新生成更干净的纸纹、布纹、alpha 边缘，而不是继续堆叠半透明遮罩。
+
+### 资产性能治理
+
+位图材质是本项目的必要成本，但需要工程化管理：
+
+- 大背景、纸纹、样本装饰等交付资源优先使用 WebP 或 AVIF；只有透明边缘、兼容性或质量确有需要时才保留 PNG。
+- 接口缩略图运行时统一引用 `*.webp`；同名 `*.jpg` 当前作为已认可缩略图基准保留，不应在页面中重新作为运行时入口。
+- 开通流程截图运行时引用 `*.webp`；同名 `*.png` 仅作为母版输入或复核依据保留。
+- 部分运行时纹理与样本图已收敛为 WebP-only 资产；只有仍保留 PNG/JPG 母版的资产才纳入 `scripts/optimize-home-assets.mjs` 再生成链路。
+- 大面积背景图按实际桌面视口控制在合理分辨率，避免无意义的超高清素材进入首屏。
+- 纸纤维、布纹、颗粒类纹理应尽量做成小尺寸无缝 tile，例如 `128x128`、`256x256` 或 `512x512`，通过 `background-repeat` 复用。
+- 具有边缘形态的纸张素材可以保留较大尺寸，但应限制数量，并封装为固定的纸面组件复用。
+- 首页首屏会同时加载布板、纸面、样本和装饰图，新增素材前应评估首屏体积，不要让多个 1MB 以上 PNG 同时成为关键路径。
+- 后续如果要继续精修视觉，优先建立统一材质组件，例如 `ArchiveBoard`、`PaperSurface`、`RecordCard`、`TapeDecor`，避免每个模块各自随手引用背景图。
+
+### 当前可用资产
+
+| 资产 | 推荐用途 |
+| --- | --- |
+| `archive-board-cloth-tile.webp` | 蓝色档案布面平铺纹理、外层主背景 |
+| `archive-board-light.webp` | 较浅蓝色档案板、局部蓝色纸板、辅助背景 |
+| `paper-clean-mottle.webp`、`paper-clean-mottle-tile.webp` | 干净纸纹底、正文阅读区、可重复纸面中心 |
+| `paper-card-alpha.webp` | 小型纸卡、记录卡、标签卡、可重复的纸片表面 |
+| `paper-wide-alpha.webp` | 宽纸面、横向说明区、标题纸条、较大内容承载面 |
+| `home-header-paper-alpha.webp` | 顶部纸质导航或标题条一类的横向纸面 |
+| `home-index-paper-clean-alpha.webp` | 首页索引目录左侧专用干净纸卡 |
+| `paper-torn-strip.webp` | 撕边纸条、分隔、标题压条 |
+| `masking-tape.webp` | 胶带、贴纸固定感、轻量装饰锚点 |
+| `decor-stamp-ring-alpha.png` | 低透明印章、状态标记、档案装饰 |
+| `decor-stamp-collected-alpha.png` | “已收录”一类确认性印章 |
+| `decor-compass-seal-alpha.png` | 低透明罗盘/档案章水印 |
+| `decor-paperclip-alpha.webp` | 夹子装饰，用于真实固定感 |
+| `decor-binder-rings-alpha.png`、`decor-binder-rings-slim-alpha.png` | 装订环、档案夹边缘、局部物理结构 |
+
+### 代码使用边界
+
+- 纸面类元素优先使用 `background-image`、伪元素或 `border-image` 引入纸纹资产。
+- 布面类背景优先使用档案板位图素材，再叠加轻微色彩层统一明暗。
+- 渐变只用于细微阴影、边缘压暗、纸面高光、状态过渡。
+- 不要用 `linear-gradient()` 单独冒充纸张、布面或卡片。
+- 不要使用玻璃拟态的 `backdrop-filter` 作为主要视觉语言。
+- 纹理透明度要克制，文本区域不能因为纹理影响阅读。
+
+## 表面与组件气质
+
+本节只定义组件应该呈现的材质和气质，不限定它们在页面中的具体位置。
+
+### 页面背景
+
+页面背景应像深蓝档案布板或蓝色档案夹，具有细微织物、纸板或蓝图质感。背景可以露出在内容之间，用来形成“档案工作台”的感觉。
+
+避免：
+
+- 平铺纯蓝色块。
+- 蓝紫科技渐变。
+- 深色玻璃背景。
+- 无语义的光球、blob、装饰雾面。
+
+### 纸面容器
+
+承载主要信息的区域应像放在档案板上的纸张。纸面可以干净，但不能像普通白卡片。
+
+推荐特征：
+
+- 暖白、旧纸、轻微纤维。
+- 细边框或不规则纸边。
+- 短而轻的投影。
+- 局部压痕、撕边或磨损感。
+
+避免：
+
+- 大圆角玻璃卡。
+- 纯白浮层卡。
+- 过深现代产品阴影。
+- 高亮发光边框。
+
+### 接口与能力卡片
+
+接口卡、能力卡、字段卡应像档案纸片或索引卡。它们可以密集，但必须易扫。
+
+实现建议：
+
+- 标题、编号、分类、字段和动作应形成清楚的信息层级。
+- 编号和字段名可使用等宽字体，增强档案索引感。
+- 分类标签应像印刷标签、小章或纸贴，不像现代胶囊标签。
+- 卡片悬停可以轻微上浮或加深纸影，但动效要安静。
+
+### 搜索与输入
+
+搜索框和输入框应像纸面上的正式检索栏。
+
+实现建议：
+
+- 使用浅纸色或仿羊皮纸色作为输入底。
+- 边框使用旧纸边或蓝色焦点线。
+- 图标和 placeholder 应低调，不要做成强科技搜索框。
+- 聚焦态使用印章蓝或档案海军蓝，保持清晰可见。
+
+### 标签、印章和状态
+
+标签和状态是信息架构的一部分，不只是装饰。
+
+实现建议：
+
+- 证照类可用凭证绿，票据类可用标签琥珀，通用/选中状态可用印章蓝。
+- 印章适合表达“已收录”“推荐”“更新”“示例”等档案语义。
+- 胶带、夹子、装订环只在需要加强纸张关系时使用，不能遮挡正文。
+- 状态色必须小面积使用，避免变成花哨拼贴。
+
+### 文档缩略图与样本
+
+OCR 主题必须通过真实或仿真的文档材料体现。文档缩略图应像被扫描、归档、标注过的样本，而不是营销截图。
+
+实现建议：
+
+- 优先使用 `src/assets/thumbs/` 里的真实文档缩略图。
+- 样本图可以带轻微纸边、阴影、印章或标签。
+- 不要把 OCR 材料处理成过度光滑的宣传图。
+- 字段标注和识别结果要比装饰更重要。
+
+## 边框、阴影与形状
+
+### 形状
+
+| 元素 | 建议半径 | 说明 |
 | --- | --- | --- |
-| Paper cards | `6px` | Slight rounding only; corners may look worn |
-| Buttons | `4px` | Rectangular, official, stamped |
-| Inputs | `6px` | Soft enough for paper, never pill-shaped |
-| Badges/chips | `4px` | Label-like, not modern capsules |
-| Stamps/seals | `999px` | Circular only when imitating archive stamps |
+| 纸卡、记录卡 | `6px` 左右 | 轻微圆角，保留纸片感 |
+| 按钮、标签 | `4px` 左右 | 更正式、更像印刷标签 |
+| 输入框 | `6px` 左右 | 柔和但不胶囊 |
+| 印章、圆形标记 | `999px` | 仅用于章、徽记、圆形图标容器 |
 
-Avoid large generic SaaS card radii. Cards should feel like paper slips, not floating glass panels.
+不要把所有元素统一做成大圆角。OCR 档案界面应偏矩形、纸片化、正式。
 
-### Borders And Shadows
+### 边框与阴影
 
-Use borders before shadows.
+优先使用边框建立纸张边界，再使用短阴影制造层次。
 
 ```css
 :root {
@@ -86,162 +248,57 @@ Use borders before shadows.
 }
 ```
 
-Shadows should be short and dusty. Never use glossy, deep, modern product-card shadows.
+阴影应短、干、轻，像纸张压在桌面上。不要使用大范围模糊、发光或高光泽产品卡阴影。
 
-## Layout System
+## 交互状态
 
-### Page Frame
+交互应安静、物理、可预期。
 
-Use a full-viewport archive board:
+- 卡片悬停：轻微上浮、纸影加深、边框转蓝。
+- 按钮悬停：深蓝略提亮或纸面略压暗。
+- 输入聚焦：印章蓝或档案海军蓝焦点边框，焦点环必须可见。
+- 激活筛选：使用蓝色文字、浅蓝纸面或左侧标记线。
+- 禁用状态：降低墨色浓度、去饱和、取消动效。
 
-- Outer background: deep blue cloth/blueprint field.
-- Inner work surface: parchment panels arranged in a controlled grid.
-- Header: fixed-height paper nav strip with a subtle bottom border.
-- Main content: hero catalogue band, specimen strip, index directory, summary panel, reference footer.
-- Optional right rail: vertical tabs for "接口图鉴", "字段结构", "示例档案".
+动效方向：
 
-The first viewport should immediately show the product identity and working interface. Do not make a marketing hero that hides the catalogue.
+- 可以使用纸片滑入、印章淡入、标签收合、卡片轻移。
+- 避免弹跳、过度缩放、霓虹扫描线和消费级强动效。
+- 动效时长应短，不能影响查找接口和阅读字段。
 
-### Grid
+## 可读性与可访问性
 
-Use a 12-column desktop grid with `24px` gutters.
+- `Ink` 与纸面之间必须保持足够对比。
+- 小号灰字不要放在深蓝纹理背景上。
+- 图标按钮必须有可访问标签或 tooltip。
+- 装饰素材不能压住正文、字段、编号、按钮或焦点环。
+- 纹理、印章、水印必须低透明，并避开核心阅读区域。
+- OCR 字段、接口名、错误码和接入建议属于高价值信息，优先级高于任何视觉装饰。
 
-- Left filter/index rail: 2-3 columns.
-- Main record grid: 6-7 columns.
-- Right archive summary: 2-3 columns.
-- On mobile, collapse to one column with the summary after the search/filters.
+## 可以做
 
-Cards should align like index cards on a desk. Slight rotations are allowed only for decorative specimen cards in the top visual band, never for dense data cards that users must scan repeatedly.
+- 用暖纸面和深蓝档案板建立第一视觉印象。
+- 用位图纸纹、布纹和纸边素材实现关键表面。
+- 用衬线标题建立图鉴和目录气质。
+- 用等宽字体处理字段名、接口名、编号和代码片段。
+- 用印章、标签、胶带、夹子、装订环强化档案语义。
+- 用真实文档缩略图和字段标注让 OCR 能力可见。
+- 在高密度信息里保持稳定的行高、边距和视觉层级。
 
-### Information Density
+## 不要做
 
-This is an operational documentation tool. Keep density high:
+- 不要做成干净白底 SaaS 仪表盘。
+- 不要做成蓝紫霓虹、扫描线、玻璃拟态科技后台。
+- 不要用纯 CSS 渐变冒充真实纸张或布面。
+- 不要让所有标签和按钮变成现代胶囊。
+- 不要使用纯黑正文或纯白主纸面，除非真实文档缩略图需要。
+- 不要用大面积亮面渐变、光球、blob 或装饰雾面。
+- 不要让纹理、印章、夹子、胶带降低可读性。
+- 不要用营销大 Hero 掩盖能力导航、OCR 材料和接口信息。
 
-- Show IDs, categories, fields, scenario tags, and descriptions directly on cards.
-- Use compact chips for field names.
-- Keep actions short, icon-assisted, and consistently placed.
-- Avoid oversized empty cards, large promotional copy, and decorative filler.
+## CSS 起始变量
 
-## Components
-
-### Archive Header
-
-Paper strip with logo left, compact nav center, support/action button right.
-
-- Active nav uses Archive Navy text plus a short underline.
-- Header background should be Vellum with faint paper noise.
-- Logo may combine a circular OCR magnifier mark with a serif Chinese product title.
-
-### Catalogue Hero
-
-Large torn-paper or framed parchment panel.
-
-- Title: oversized serif, e.g. `OCR 识别接口图鉴`.
-- Subtitle: concise, documentation-oriented.
-- Search input: wide, rectangular, with search icon and muted placeholder.
-- Add subtle seal/compass/watermark graphics at low opacity.
-
-### Specimen Cards
-
-Top-row document examples: ID card, license, receipt, plain text.
-
-- Card surface: Vellum or Parchment.
-- Use paper border, tape/clip detail, small category label, document ID, and circular "已收录" stamp.
-- Document thumbnails should look like scanned artifacts, not polished marketing screenshots.
-- Category badges may use Evidence Green, Tag Amber, Stamp Blue, or muted purple-blue, but only as small labels.
-
-### Index Directory
-
-Left panel for filters and counts.
-
-- Use section rows with small icons and chevrons.
-- Counts align right in monospace or tabular numerals.
-- Panel border should resemble a printed ledger box.
-- Collapsible sections should feel like opening index drawers, with simple height transitions.
-
-### Record Cards
-
-Core API/documentation cards.
-
-- Title at top left, ID tag top right.
-- Thumbnail left, description right or below depending on width.
-- Field chips in one compact row.
-- Archive tag line at bottom.
-- Primary action button bottom right in Archive Navy.
-- Maintain identical card heights per row on desktop.
-
-### Archive Summary
-
-Right-side summary panel.
-
-- Use stacked statistic rows with icons in square or circular paper frames.
-- Big numerals should be serif or tabular, dark navy.
-- Include recommendation/update sections as compact record snippets.
-
-### Reference Footer
-
-Paper tag/cards along the bottom.
-
-- Use icon panels for "字段命名规范", "初次接入建议", "常见错误说明".
-- Cards should be horizontal, like reference file tabs.
-- Keep copy short and action-oriented.
-
-### Side Tabs
-
-Vertical tabs can sit on the right blue board edge.
-
-- Active tab: Archive Navy with white text.
-- Inactive tabs: Tape Beige with Ink text.
-- Tabs should feel physically attached to the archive board.
-
-## Imagery And Texture
-
-Use texture sparingly but deliberately:
-
-- Subtle paper grain on Parchment/Vellum surfaces.
-- Fine blue cloth or blueprint texture on the outer board.
-- Low-opacity compass/seal/watermark line art.
-- Tape strips, binder clips, string tags, rings, and stamped circles as small structural accents.
-
-Do not use generic stock photos, blobs, glossy gradients, glassmorphism, or decorative orbs. Visual assets must reinforce the archive/document metaphor.
-
-## Interaction States
-
-- Hover on record cards: lift by `2px`, deepen paper shadow, darken border to Blueprint Blue.
-- Active filters: navy text, pale blue background, left border marker.
-- Buttons: Archive Navy fill, Vellum text; hover slightly brighter.
-- Inputs: focus border Stamp Blue, subtle inset paper shadow.
-- Disabled state: faded ink, desaturated surface, no motion.
-
-Motion should be quiet and physical: cards slide, tabs tuck, stamps fade in. Avoid bouncy consumer-app animation.
-
-## Accessibility
-
-- Preserve strong contrast between Ink and Parchment.
-- Do not put small Typewriter Gray text over textured blue backgrounds.
-- All icon-only buttons need accessible labels and tooltips.
-- Keep focus rings visible in Stamp Blue or Archive Navy.
-- Ensure text never overlaps decorative stamps, clips, or seals.
-
-## Do
-
-- Use warm paper surfaces and deep blue structure as the signature pairing.
-- Keep the first screen useful: search, specimen cards, filters, record cards, and summary should be visible.
-- Use serif typography for catalogue identity and sans/mono for practical UI.
-- Treat badges, IDs, stamps, and tabs as information architecture.
-- Make repeated documentation cards stable in size and easy to scan.
-- Use realistic document thumbnails and archival marks to make OCR subject matter tangible.
-
-## Don't
-
-- Do not turn this into a clean white SaaS dashboard.
-- Do not use glossy gradients, oversized hero slogans, or generic marketing sections.
-- Do not make all UI elements rounded pills.
-- Do not let texture reduce readability.
-- Do not scatter decorative clips/stamps where users need to read dense text.
-- Do not use pure black text or pure white paper surfaces unless a real document thumbnail requires it.
-
-## CSS Starter
+后续实现应优先复用这些变量。可以按具体页面补充变量，但不要随意创建新的主色体系。
 
 ```css
 :root {
@@ -261,8 +318,8 @@ Motion should be quiet and physical: cards slide, tabs tuck, stamps fade in. Avo
   --color-tape-beige: #e7dac4;
   --color-warning-red: #9b3f35;
 
-  --font-display: "Noto Serif SC", "Songti SC", Georgia, serif;
-  --font-ui: "Noto Sans SC", Inter, "Microsoft YaHei", sans-serif;
+  --font-display: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+  --font-ui: "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --font-mono: "JetBrains Mono", Consolas, monospace;
 
   --radius-paper: 6px;
@@ -272,13 +329,19 @@ Motion should be quiet and physical: cards slide, tabs tuck, stamps fade in. Avo
   --border-blueprint: 1px solid rgba(25, 61, 106, 0.28);
   --shadow-paper: 0 2px 0 rgba(82, 69, 51, 0.08), 0 8px 22px rgba(30, 35, 42, 0.12);
   --shadow-clipped: 0 4px 10px rgba(31, 43, 61, 0.16);
+  --shadow-inset-paper: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
 }
 ```
 
-## Refero Source Notes
+## 实现审查清单
 
-- Slite: warm parchment editorial desk; cream ground, ink text, soft document-workspace mood.
-- Granola: field notes on warm parchment; serif headlines and hairline-ruled note-card borders.
-- Calendly: sky blueprint on bright paper; deep blue hierarchy and clear information structure.
+提交视觉相关代码前，至少检查以下问题：
 
-Use this file as the source of truth when implementing the OCR interface catalogue. If a Refero style and the screenshot conflict, prefer the screenshot for metaphor and layout, and prefer Refero for token discipline and component consistency.
+- 当前页面第一眼是否仍是“纸质档案 / 深蓝档案布板 / OCR 文档图鉴”。
+- 关键表面是否使用了真实纸张或布面位图材质。
+- CSS 渐变是否只是辅助光影，而不是在冒充材质。
+- OCR 材料、字段、接口和接入信息是否比装饰更突出。
+- 色彩是否仍以暖纸面、深蓝结构和少量分类色为主。
+- 字体是否保持中文目录感、文档感和字段可读性。
+- 装饰素材是否避开了正文、按钮、字段和焦点状态。
+- 页面是否避免了白底 SaaS、科技霓虹、玻璃拟态和胶囊化组件。
