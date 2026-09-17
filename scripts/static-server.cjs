@@ -24,13 +24,18 @@ const server = http.createServer((request, response) => {
     .replace(/^(\.\.[/\\])+/, "");
   let filePath = path.join(root, safePath);
 
-  if (!filePath.startsWith(root)) {
+  if (filePath !== root && !filePath.startsWith(`${root}${path.sep}`)) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
   }
 
-  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
+    const directoryIndex = path.join(filePath, "index.html");
+    filePath = fs.existsSync(directoryIndex)
+      ? directoryIndex
+      : path.join(root, "index.html");
+  } else if (!fs.existsSync(filePath)) {
     filePath = path.join(root, "index.html");
   }
 

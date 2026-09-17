@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/interface-custom-guide",
+      "destination": "/interface-custom-guide/index.html"
+    },
+    {
+      "source": "/interface-custom-guide/",
+      "destination": "/interface-custom-guide/index.html"
+    },
+    {
+      "source": "/interfaces/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/activation-guide",
+      "destination": "/index.html"
+    }
+  ]
+}

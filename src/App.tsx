@@ -820,6 +820,7 @@ function SiteHeader({
           >
             开通流程指引
           </Link>
+          <a href="/interface-custom-guide/">接口定制指引</a>
         </nav>
         <button
           aria-expanded={isSupportDialogOpen}
@@ -897,6 +898,9 @@ function SiteHeader({
                   开通流程
                 </Link>
               )}
+              <a className="mobile-header-menu-item" href="/interface-custom-guide/" onClick={closeMobileMenu} role="menuitem">
+                接口定制指引
+              </a>
               <button className="mobile-header-menu-item" onClick={openSupportDialog} role="menuitem" type="button">
                 联系支持
               </button>
