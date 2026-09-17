@@ -117,7 +117,7 @@ Updated on `2026-06-05` for 手机端 M7 成品化计划:
 - M7 首轮已完成：清理中断前临时 `Mobile polish pass` 草稿样式，建立文件末尾单一 `Mobile v2` 覆盖区，并完成首页、详情页、流程页首轮手机端成品化。
 - PC 端当前视觉视为冻结基线；每期手机端修改都必须复拍 `1600x900` 桌面截图，确认首页、详情页、开通流程页不回退。
 - 验证结果：`npm run build` 通过；首页、`/interfaces/idcard`、`/interfaces/vat-invoice`、`/activation-guide` 在 `390x844`、`428x932`、`1600x900` 下均满足 `scrollWidth === clientWidth`。
-- 首页首张接口卡在 `390px` 下顶部约为 `617px`，已进入首屏内；截图参考 `.codex-temp/m7-home-390-v2.png`、`.codex-temp/m7-detail-idcard-390.png`、`.codex-temp/m7-activation-390.png`。
+- 首页首张接口卡在 `390px` 下顶部约为 `617px`，已进入首屏内；相关验证截图现已清理。
 - 当前手机端专项已阶段性收口；除非用户重新开启手机端专项，否则后续默认不再把手机端视觉微调作为当前主线。
 
 Updated on `2026-06-09` for 运行时位图格式统一:
@@ -317,7 +317,7 @@ Updated on `2026-05-29` after implementation:
 - Homepage hero description copy is now `接口换种读法，让开发者也能拥有高颜值、易查阅的文档`.
 - The hero search field now uses generated bitmap material `home-search-paper-field.png` as the paper/search-strip texture while keeping the input as real DOM for interaction.
 - The hero compass seal now uses transparent alpha asset `home-compass-seal-faint-alpha`; do not replace it with a full paper-background image that creates a visible circular or rectangular backing.
-- Verified live page at `1600x900` via Chrome headless screenshot `.codex-temp/home-after-search-stamp-alpha.png`; build passed with `PATH="$PWD/.tools/node/bin:$PATH" npm run build`.
+- Verified live page at `1600x900` via Chrome headless; its local screenshot has since been cleaned. Build passed with `PATH="$PWD/.tools/node/bin:$PATH" npm run build`.
 
 Updated on `2026-06-01` for pure-image Banner review:
 
@@ -478,3 +478,22 @@ Updated on `2026-06-25` for 详情页共享头部回归:
 - 用户明确指出：详情页头部里的 `参数 / 返回 / 示例 / 错误码` 这组快捷标签只属于手机端，不允许在桌面端再次出现；这类泄漏属于严重回退。
 - 当前已确认一个具体风险点：`SiteHeader` 即使在桌面端继续接收 `mobileTabs`，也必须依赖“默认隐藏 + 仅在移动端断点显式打开”的样式策略，不能只靠宽屏媒体查询兜底，否则会被桌面通用 `nav` 规则重新显示。
 - 后续凡是调整共享头部、详情页快捷入口、移动端菜单或 `nav` 通用样式，都必须回归桌面 `1600×900` live 页面，确认没有额外一行移动端标签、没有头部增高、没有空白占位。
+
+Updated on `2026-09-16` for OCR 模型训练指南独立视觉重做:
+
+- 用户明确否定复用旧页面的蓝色档案背景、浅色纸张和旧装饰素材；该页面必须从零建立视觉系统，不得只换配色或沿用旧版布局样式。
+- 本轮改为深石墨底、浅色文字与信号橙重点色，用数字、网格和分栏建立层级；六步梗概首屏等权展示，平台操作细节另起章节。
+- 只保留 Word 中的真实平台操作截图作为说明内容，移除旧素材纹理与页面装饰；视频链接、第三步李顺风联系方式、最后一步王骞联系方式均保留。
+- 完成交付文件 `交付/OCR模型自训练全流程操作指南.html`；1600×900 桌面截图已目视复核，六步卡片、步骤详情、平台视频、图片放大、复制联系方式与打印均通过 Playwright 检查，390px 页面无横向溢出。
+
+Updated on `2026-09-17` for 临时文件清理与“接口定制指引”发布接入复核:
+
+- 已将 `.codex-work/training-guide/` 下 72 个中间脚本、审稿/验证截图、抽取文本和打印/PDF 检查产物（约 24 MB）移到 `项目回收站/2026-09-17/.codex-work/training-guide/`，保留原相对路径和恢复记录；该移动未释放磁盘空间。`.gitignore` 已精确增加 `.codex-work/`。
+- 已修复 `scripts/static-server.cjs` 的目录索引解析，`/interface-custom-guide/` 现在优先返回自身 `index.html`，不再误回退到 React 主站。
+- 已新增 `vercel.json`：指南静态页路由优先，`/interfaces/:path*` 和 `/activation-guide` 单独回退 React `index.html`，避免彼此覆盖。
+- 已修复指南窄屏 CSS：`返回 OCR 主站` 在手机端常驻可见，页内低频锚点收起。
+- `npm run build` 通过，`dist/interface-custom-guide/index.html` 与 `docs-source/OCR模型自训练全流程操作指南.html` 逐字节一致。开发服务与生产静态服务的 `/`、`/interfaces/idcard`、`/activation-guide`、`/interface-custom-guide/` 均已验证；菜单进入、返回首页、浏览器返回、指南直访/刷新、18 张内容截图加载、图片放大与 3 个视频链接均通过。
+- 首页、`/interfaces/idcard`、`/activation-guide` 已用当前 live 页面做 `1600×900` 桌面目视回归，无本次接入导致的布局回退；`390×844` 仅检查新增菜单和指南返回入口，两者可见可用且无横向溢出。
+- 已确认 GitHub 仓库 `yuanceshu/OCRWeb` 为公开仓库；待提交指南含真实平台截图和联系人姓名/电话/CU 账号，用户已于本轮明确授权公开提交与发布。
+- 远端已 `fetch --prune`，当前分支 `codex/homepage-reference-restoration` 与上游差异为 `0/0`，无分叉。GitHub 记录的最新 Vercel Production 部署仅对应旧提交 `fa07009`，本轮改动尚未部署；线上 URL 当前无法从本机网络实际访问验证。
+- 浏览器控制台仍有已记录的 `idcard` 字段 React duplicate-key 警告（`Nation` / `card-Nation`）与 React Router v7 future-flag 提示；均非本次指南接入引入，本轮未扩大修复。

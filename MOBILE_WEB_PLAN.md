@@ -258,11 +258,7 @@ M7 手机端成品化体验优化：首轮完成，待用户视觉验收
 - 确认详情页是当前手机端最大风险，首页和流程页属于效率优化。
 - 建立本文件作为手机端专项的规划与进度指针。
 
-诊断截图保存在临时目录，仅作为本轮分析参考，不作为长期视觉来源：
-
-- `.codex-temp/mobile-analysis/home-mobile-cdp-390x844.png`
-- `.codex-temp/mobile-analysis/detail-idcard-mobile-cdp-390x844.png`
-- `.codex-temp/mobile-analysis/activation-mobile-cdp-390x844.png`
+诊断截图曾用于本轮分析，现已清理，不作为长期视觉来源。
 
 ## M1 接口详情页手机端可用性修复
 
@@ -476,7 +472,7 @@ M7 手机端成品化体验优化：首轮完成，待用户视觉验收
 - 关键 CSS 范围：`src/styles.css` 中 720px 以下详情页规则，重点约束 `.detail-board`、`.doc-content > *`、`.detail-hero`、`.section-block`、`.endpoint-row`、`.field-table-wrap`、代码块和示例卡片。
 - 验证结果：`idcard-390`、`vat-390`、`idcard-430`、`idcard-desktop-1600` 均满足 `scrollWidth === clientWidth`。表格仍保留内部横向滚动，符合 M1.1 目标。
 - 构建结果：`PATH="$PWD/.tools/node/bin:$PATH" npm run build` 通过。
-- 截图参考：`.codex-temp/mobile-analysis/detail-idcard-mobile-after-m1-390x844.png` 和 `.codex-temp/mobile-analysis/detail-idcard-desktop-after-m1-1600x900.png`。
+- 桌面与手机端截图曾用于对应指标验证，截图文件现已清理。
 - 下一步：进入 M1.2，处理手机端详情页阅读顺序。目前目录仍排在正文前方，属于 M1.2 范围。
 
 ### 2026-06-04 M1.2 完成
@@ -552,7 +548,7 @@ M7 手机端成品化体验优化：首轮完成，待用户视觉验收
   - Playwright 实测 `390px` 与 `428px` 下 `scrollWidth === clientWidth`。
   - 两个移动视口下都能看到 `2` 条主流程入口，折叠索引可展开，截图 lightbox 可打开并用 `Esc` 关闭。
   - 桌面 `1600x900` 下 `scrollWidth === clientWidth`，桌面索引保持显示，移动索引保持隐藏。
-- 截图参考：`.codex-temp/activation-guide-390.png`、`.codex-temp/activation-guide-desktop-1600.png`。
+- 桌面与手机端截图曾用于回归验证，截图文件现已清理。
 - 下一步：进入 `M6 验证、回归与文档收口`。
 
 ### 2026-06-05 M6 完成
@@ -568,7 +564,7 @@ M7 手机端成品化体验优化：首轮完成，待用户视觉验收
   - 流程页手机端保留 `2` 条主流程入口，折叠索引可展开，截图 lightbox 可打开并关闭，打开时 `body` 滚动被锁定。
   - 桌面端详情页侧栏和表格、流程页桌面索引都保持原显示策略。
 - 构建结果：`PATH="$PWD/.tools/node/bin:$PATH" npm run build` 通过。
-- 截图参考：`.codex-temp/home-390-m6-check-fixed.png`、`.codex-temp/detail-nav-immediate.png`、`.codex-temp/activation-guide-390.png`。
+- 回归截图曾用于验证首页、详情页和流程页，截图文件现已清理。
 - 下一步：手机端专项已完成当前计划；后续如继续，默认转入用户新的专项或视觉回合，而不是继续扩写本计划。
 
 ### 2026-06-05 M7 启动
@@ -596,5 +592,5 @@ M7 手机端成品化体验优化：首轮完成，待用户视觉验收
   - Playwright 实测首页、`/interfaces/idcard`、`/interfaces/vat-invoice`、`/activation-guide` 在 `390x844`、`428x932`、`1600x900` 下均满足 `scrollWidth === clientWidth`。
   - 首页首张接口卡在 `390px` 下顶部约为 `617px`，已经进入首屏内，明显早于 M6 的约 `1032px`。
   - 桌面 `1600x900` 复拍首页、详情页和流程页，未发现 PC 端顶部导航、详情页侧栏、流程页桌面索引回退。
-- 截图参考：`.codex-temp/m7-home-390-v2.png`、`.codex-temp/m7-detail-idcard-390.png`、`.codex-temp/m7-activation-390.png`、`.codex-temp/m7-home-desktop-1600.png`、`.codex-temp/m7-detail-idcard-desktop-1600.png`、`.codex-temp/m7-activation-desktop-1600.png`。
+- 桌面与手机端截图曾用于 M7 首轮回归，截图文件现已清理。
 - 下一步：等待用户对 M7 首轮手机端视觉验收；若继续优化，优先微调首页接口卡图片裁切、顶部支持入口可见性和流程页步骤密度。

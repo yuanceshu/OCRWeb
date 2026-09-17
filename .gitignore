@@ -1,6 +1,7 @@
 node_modules/
 .tools/
 .codex-temp/
+.codex-work/
 output/
 项目回收站/
 tmp/
