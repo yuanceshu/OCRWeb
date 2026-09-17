@@ -495,5 +495,5 @@ Updated on `2026-09-17` for 临时文件清理与“接口定制指引”发布�
 - `npm run build` 通过，`dist/interface-custom-guide/index.html` 与 `docs-source/OCR模型自训练全流程操作指南.html` 逐字节一致。开发服务与生产静态服务的 `/`、`/interfaces/idcard`、`/activation-guide`、`/interface-custom-guide/` 均已验证；菜单进入、返回首页、浏览器返回、指南直访/刷新、18 张内容截图加载、图片放大与 3 个视频链接均通过。
 - 首页、`/interfaces/idcard`、`/activation-guide` 已用当前 live 页面做 `1600×900` 桌面目视回归，无本次接入导致的布局回退；`390×844` 仅检查新增菜单和指南返回入口，两者可见可用且无横向溢出。
 - 已确认 GitHub 仓库 `yuanceshu/OCRWeb` 为公开仓库；待提交指南含真实平台截图和联系人姓名/电话/CU 账号，用户已于本轮明确授权公开提交与发布。
-- 远端已 `fetch --prune`，当前分支 `codex/homepage-reference-restoration` 与上游差异为 `0/0`，无分叉。GitHub 记录的最新 Vercel Production 部署仅对应旧提交 `fa07009`，本轮改动尚未部署；线上 URL 当前无法从本机网络实际访问验证。
+- 远端已 `fetch --prune`，当前分支 `codex/homepage-reference-restoration` 推送时与上游无分叉。GitHub Deployment 记录显示本轮提交 `e062fd5` 已完成 Vercel Production 部署，状态为 `success`，环境 URL 为 `https://ocr-ap0sqixg7-r-e-mi-n.vercel.app`；但本机通过 Node HTTP 与浏览器访问该域名均连接超时，因此未能实际打开线上指南复验。
 - 浏览器控制台仍有已记录的 `idcard` 字段 React duplicate-key 警告（`Nation` / `card-Nation`）与 React Router v7 future-flag 提示；均非本次指南接入引入，本轮未扩大修复。
