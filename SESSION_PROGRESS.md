@@ -497,3 +497,12 @@ Updated on `2026-09-17` for 临时文件清理与“接口定制指引”发布�
 - 已确认 GitHub 仓库 `yuanceshu/OCRWeb` 为公开仓库；待提交指南含真实平台截图和联系人姓名/电话/CU 账号，用户已于本轮明确授权公开提交与发布。
 - 远端已 `fetch --prune`，当前分支 `codex/homepage-reference-restoration` 推送时与上游无分叉。GitHub Deployment 记录显示本轮提交 `e062fd5` 已完成 Vercel Production 部署，状态为 `success`，环境 URL 为 `https://ocr-ap0sqixg7-r-e-mi-n.vercel.app`；但本机通过 Node HTTP 与浏览器访问该域名均连接超时，因此未能实际打开线上指南复验。
 - 浏览器控制台仍有已记录的 `idcard` 字段 React duplicate-key 警告（`Nation` / `card-Nation`）与 React Router v7 future-flag 提示；均非本次指南接入引入，本轮未扩大修复。
+
+## 2026-10-16 票根识别能力查询
+
+- 已新增 `/ticket-capabilities` 与 `/ticket-capabilities/:code`，接入桌面/手机导航和 `/interface-custom-guide/` 顶部提示。
+- 用户明确取消分类：Excel 每列代表独立票根能力，不合并相似名称，不添加分类筛选。
+- 原始 Excel 保存于 `docs-source/ticket-capabilities/`；按 DISPIMG ID 提取 22 个条目、25 张原图及缩略图、186 个字段映射，保留来源单元格和特殊字段映射。
+- 提取/缩略图命令：`npm run build:ticket-capabilities`；只读校验：`npm run validate:ticket-capabilities`；live 交互验证：`node scripts/check-ticket-capabilities.mjs`（需要 dev server）。
+- 已通过 build、原图与字段逐项校验、Chromium 桌面 1600×900 和手机 390×844 交互检查，完成首页/开通流程/身份证详情/自训练指南桌面回归。截图位于 `.codex-screens/ticket-capabilities/`，属于本次验证产物，不能替代未来 live 状态。
+- 指南六步及后续教学内容与 HEAD 对比逐字一致；仅增加顶部查询提示与其专用样式。大图关闭焦点和返回列表滚动恢复已修复。

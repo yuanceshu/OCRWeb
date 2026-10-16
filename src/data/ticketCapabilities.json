@@ -1,0 +1,1305 @@
+[
+  {
+    "code": "1",
+    "name": "大麦/猫眼演唱会票根",
+    "sourceColumn": "C",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "演唱会名称",
+        "sourceCell": "C5"
+      },
+      {
+        "name": "date",
+        "description": "举办日期",
+        "sourceCell": "C8"
+      },
+      {
+        "name": "time",
+        "description": "举办时间",
+        "sourceCell": "C9"
+      },
+      {
+        "name": "city",
+        "description": "举办城市",
+        "sourceCell": "C10"
+      },
+      {
+        "name": "location",
+        "description": "举办地点",
+        "sourceCell": "C11"
+      },
+      {
+        "name": "ticketCheck",
+        "description": "检票口",
+        "sourceCell": "C12"
+      },
+      {
+        "name": "admissionPass",
+        "description": "入场凭证",
+        "sourceCell": "C13"
+      },
+      {
+        "name": "name",
+        "description": "观众姓名",
+        "sourceCell": "C14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "观众证件号",
+        "sourceCell": "C15"
+      },
+      {
+        "name": "seat",
+        "description": "观众座位",
+        "sourceCell": "C16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "C17"
+      },
+      {
+        "name": "ticketID",
+        "description": "票号（T.N号）",
+        "sourceCell": "C18"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/1-1.jpeg",
+        "thumbnail": "/ticket-capabilities/1-1.webp",
+        "sourceCell": "C1",
+        "imageId": "ID_57AF7857E4BD4702A99C22404CD89755",
+        "sourceMedia": "xl/media/image1.jpeg"
+      },
+      {
+        "src": "/ticket-capabilities/1-2.jpeg",
+        "thumbnail": "/ticket-capabilities/1-2.webp",
+        "sourceCell": "C41",
+        "imageId": "ID_D8B0F5DD62CD46C58A5D05220F09D389",
+        "sourceMedia": "xl/media/image12.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "2",
+    "name": "厦门闵超票根",
+    "sourceColumn": "D",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "赛事名称",
+        "sourceCell": "D5"
+      },
+      {
+        "name": "session",
+        "description": "场次",
+        "sourceCell": "D7"
+      },
+      {
+        "name": "date",
+        "description": "举办日期",
+        "sourceCell": "D8"
+      },
+      {
+        "name": "location",
+        "description": "举办地点",
+        "sourceCell": "D11"
+      },
+      {
+        "name": "admissionPass",
+        "description": "入场凭证",
+        "sourceCell": "D13"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "D14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "证件号码",
+        "sourceCell": "D15"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "D16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "D17"
+      },
+      {
+        "name": "ticketID",
+        "description": "票ID",
+        "sourceCell": "D18"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/2-1.jpeg",
+        "thumbnail": "/ticket-capabilities/2-1.webp",
+        "sourceCell": "D1",
+        "imageId": "ID_E6B3518B4AC14703B43E3993A0C55B5E",
+        "sourceMedia": "xl/media/image9.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "3",
+    "name": "西宁马拉松票根",
+    "sourceColumn": "E",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "活动信息",
+        "sourceCell": "E5"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "E14"
+      },
+      {
+        "name": "competitionNumber",
+        "description": "参赛号",
+        "sourceCell": "E28"
+      },
+      {
+        "name": "note1",
+        "description": "性别",
+        "sourceCell": "E36"
+      },
+      {
+        "name": "note2",
+        "description": "组别",
+        "sourceCell": "E37"
+      },
+      {
+        "name": "note3",
+        "description": "手机号",
+        "sourceCell": "E38"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/3-1.jpeg",
+        "thumbnail": "/ticket-capabilities/3-1.webp",
+        "sourceCell": "E1",
+        "imageId": "ID_34853F72DFD34A28A623A62E99C8290E",
+        "sourceMedia": "xl/media/image10.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "4",
+    "name": "贵州安顺献血票根",
+    "sourceColumn": "F",
+    "fields": [
+      {
+        "name": "date",
+        "description": "献血日期",
+        "sourceCell": "F8"
+      },
+      {
+        "name": "location",
+        "description": "献血地点",
+        "sourceCell": "F11"
+      },
+      {
+        "name": "admissionPass",
+        "description": "证件类型",
+        "sourceCell": "F13"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "F14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "证件号",
+        "sourceCell": "F15"
+      },
+      {
+        "name": "note1",
+        "description": "发证单位",
+        "sourceCell": "F36"
+      },
+      {
+        "name": "note2",
+        "description": "献血种类",
+        "sourceCell": "F37"
+      },
+      {
+        "name": "note3",
+        "description": "献血编码",
+        "sourceCell": "F38"
+      },
+      {
+        "name": "note4",
+        "description": "献血量",
+        "sourceCell": "F39"
+      },
+      {
+        "name": "note5",
+        "description": "血型（初筛）",
+        "sourceCell": "F40"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/4-1.jpeg",
+        "thumbnail": "/ticket-capabilities/4-1.webp",
+        "sourceCell": "F1",
+        "imageId": "ID_2A277C706E5D4754AC1BFD1C5260D423",
+        "sourceMedia": "xl/media/image6.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "5",
+    "name": "云南滇超票根",
+    "sourceColumn": "G",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "票根名称",
+        "sourceCell": "G5"
+      },
+      {
+        "name": "date",
+        "description": "检票时间",
+        "sourceCell": "G8"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "G16"
+      },
+      {
+        "name": "fare",
+        "description": "价格",
+        "sourceCell": "G17"
+      },
+      {
+        "name": "region",
+        "description": "区域楼层",
+        "sourceCell": "G19"
+      },
+      {
+        "name": "seatNumber",
+        "description": "座位号",
+        "sourceCell": "G22"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/5-1.jpeg",
+        "thumbnail": "/ticket-capabilities/5-1.webp",
+        "sourceCell": "G1",
+        "imageId": "ID_F1EFE5CF35014049A53803C3028B31AF",
+        "sourceMedia": "xl/media/image11.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "6",
+    "name": "湖南湘超票根",
+    "sourceColumn": "H",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "比赛名称",
+        "sourceCell": "H5"
+      },
+      {
+        "name": "date",
+        "description": "举办时间",
+        "sourceCell": "H8"
+      },
+      {
+        "name": "city",
+        "description": "举办城市",
+        "sourceCell": "H10"
+      },
+      {
+        "name": "location",
+        "description": "举办地点",
+        "sourceCell": "H11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "H14"
+      },
+      {
+        "name": "ticketID",
+        "description": "T.N号",
+        "sourceCell": "H18"
+      },
+      {
+        "name": "seatNumber",
+        "description": "座位号",
+        "sourceCell": "H22"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/6-1.jpeg",
+        "thumbnail": "/ticket-capabilities/6-1.webp",
+        "sourceCell": "H1",
+        "imageId": "ID_93EF3E2AAB034BA9ACFE4F860F12DF9E",
+        "sourceMedia": "xl/media/image4.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "7",
+    "name": "伊春景点票根",
+    "sourceColumn": "I",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "林海奇石",
+        "sourceCell": "I5"
+      },
+      {
+        "name": "date",
+        "description": "出票日期",
+        "sourceCell": "I8"
+      },
+      {
+        "name": "time",
+        "description": "出票时间",
+        "sourceCell": "I9"
+      },
+      {
+        "name": "fare",
+        "description": "挂牌价",
+        "sourceCell": "I17"
+      },
+      {
+        "name": "ticketID",
+        "description": "MP序列号",
+        "sourceCell": "I18"
+      },
+      {
+        "name": "competitionNumber",
+        "description": "有效期",
+        "sourceCell": "I28"
+      },
+      {
+        "name": "note1",
+        "description": "人数",
+        "sourceCell": "I36"
+      },
+      {
+        "name": "note2",
+        "description": "票型",
+        "sourceCell": "I37"
+      },
+      {
+        "name": "note3",
+        "description": "票种",
+        "sourceCell": "I38"
+      },
+      {
+        "name": "note4",
+        "description": "售票员",
+        "sourceCell": "I39"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/7-1.jpeg",
+        "thumbnail": "/ticket-capabilities/7-1.webp",
+        "sourceCell": "I1",
+        "imageId": "ID_EF5073F2ECBF4A28875325584D1D19B2",
+        "sourceMedia": "xl/media/image3.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "8",
+    "name": "电影票电子票",
+    "sourceColumn": "J",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "电影名称",
+        "sourceCell": "J5"
+      },
+      {
+        "name": "date",
+        "description": "播放日期",
+        "sourceCell": "J8"
+      },
+      {
+        "name": "time",
+        "description": "播放时段",
+        "sourceCell": "J9"
+      },
+      {
+        "name": "location",
+        "description": "影院名称",
+        "sourceCell": "J11"
+      },
+      {
+        "name": "ticketCheck",
+        "description": "影厅信息",
+        "sourceCell": "J12"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "J16"
+      },
+      {
+        "name": "ticketID",
+        "description": "票号：验证码/取票码/序列号",
+        "sourceCell": "J18"
+      },
+      {
+        "name": "cooperationAgency1",
+        "description": "影片放映类型",
+        "sourceCell": "J30"
+      },
+      {
+        "name": "cooperationAgency2",
+        "description": "票根张数",
+        "sourceCell": "J31"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（电影名称+日期+时段+票号）",
+        "sourceCell": "J36"
+      },
+      {
+        "name": "note2",
+        "description": "影厅信息备注",
+        "sourceCell": "J37"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/8-1.jpeg",
+        "thumbnail": "/ticket-capabilities/8-1.webp",
+        "sourceCell": "J1",
+        "imageId": "ID_056C5980519B4B878B64D33BCA89B03B",
+        "sourceMedia": "xl/media/image2.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "9",
+    "name": "湖南湘超二合一票根",
+    "sourceColumn": "K",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "比赛名称",
+        "sourceCell": "K5"
+      },
+      {
+        "name": "date",
+        "description": "比赛日期",
+        "sourceCell": "K8"
+      },
+      {
+        "name": "name",
+        "description": "观赛人姓名",
+        "sourceCell": "K14"
+      },
+      {
+        "name": "ticketID",
+        "description": "T.N号",
+        "sourceCell": "K18"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/9-1.jpeg",
+        "thumbnail": "/ticket-capabilities/9-1.webp",
+        "sourceCell": "K1",
+        "imageId": "ID_CB35D33921914938807C1C588DF4A1FA",
+        "sourceMedia": "xl/media/image5.jpeg"
+      },
+      {
+        "src": "/ticket-capabilities/9-2.jpeg",
+        "thumbnail": "/ticket-capabilities/9-2.webp",
+        "sourceCell": "K41",
+        "imageId": "ID_84C7C07CE6B447C3A00C1B615C945498",
+        "sourceMedia": "xl/media/image4.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "101",
+    "name": "中山港轮船票根",
+    "sourceColumn": "L",
+    "fields": [
+      {
+        "name": "date",
+        "description": "出发日期",
+        "sourceCell": "L8"
+      },
+      {
+        "name": "time",
+        "description": "出发时间",
+        "sourceCell": "L9"
+      },
+      {
+        "name": "ticketID",
+        "description": "票号",
+        "sourceCell": "L18"
+      },
+      {
+        "name": "note1",
+        "description": "客运公司名称",
+        "sourceCell": "L36"
+      },
+      {
+        "name": "note2",
+        "description": "出发地",
+        "sourceCell": "L37"
+      },
+      {
+        "name": "note3",
+        "description": "目的地",
+        "sourceCell": "L38"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/101-1.jpeg",
+        "thumbnail": "/ticket-capabilities/101-1.webp",
+        "sourceCell": "L1",
+        "imageId": "ID_76BC8B0D6DF141CE9F62E9D654263554",
+        "sourceMedia": "xl/media/image7.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "102",
+    "name": "永东巴士票根",
+    "sourceColumn": "M",
+    "fields": [
+      {
+        "name": "session",
+        "description": "班次1",
+        "sourceCell": "M7"
+      },
+      {
+        "name": "date",
+        "description": "出发日期",
+        "sourceCell": "M8"
+      },
+      {
+        "name": "time",
+        "description": "出发时间",
+        "sourceCell": "M9"
+      },
+      {
+        "name": "ticketID",
+        "description": "票号",
+        "sourceCell": "M18"
+      },
+      {
+        "name": "note1",
+        "description": "巴士公司名称",
+        "sourceCell": "M36"
+      },
+      {
+        "name": "note2",
+        "description": "出发地",
+        "sourceCell": "M37"
+      },
+      {
+        "name": "note3",
+        "description": "目的地",
+        "sourceCell": "M38"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/102-1.png",
+        "thumbnail": "/ticket-capabilities/102-1.webp",
+        "sourceCell": "M1",
+        "imageId": "ID_F7A5C75F324F459C815CE39424BEA41B",
+        "sourceMedia": "xl/media/image8.png"
+      }
+    ]
+  },
+  {
+    "code": "10",
+    "name": "安徽大剧院票根",
+    "sourceColumn": "N",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "N5"
+      },
+      {
+        "name": "date",
+        "description": "演出日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "N8"
+      },
+      {
+        "name": "time",
+        "description": "演出时间",
+        "sourceCell": "N9"
+      },
+      {
+        "name": "location",
+        "description": "演出地点\n（格式：中英文数字，无符号）",
+        "sourceCell": "N11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "N16"
+      },
+      {
+        "name": "fare",
+        "description": "演出票价",
+        "sourceCell": "N17"
+      },
+      {
+        "name": "ticketID",
+        "description": "NO",
+        "sourceCell": "N18"
+      },
+      {
+        "name": "cooperationAgency1",
+        "description": "演出单位",
+        "sourceCell": "N30"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（演出地点+演出日期+演出时间+座位）",
+        "sourceCell": "N36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/10-1.jpeg",
+        "thumbnail": "/ticket-capabilities/10-1.webp",
+        "sourceCell": "N1",
+        "imageId": "ID_6A96CCC4F62242168AC3F0496596C0F7",
+        "sourceMedia": "xl/media/image13.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "11",
+    "name": "安徽百戏城票根",
+    "sourceColumn": "O",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "O5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "O8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "O9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "O11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "O16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "O17"
+      },
+      {
+        "name": "ticketID",
+        "description": "NO",
+        "sourceCell": "O18"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "O36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/11-1.jpeg",
+        "thumbnail": "/ticket-capabilities/11-1.webp",
+        "sourceCell": "O1",
+        "imageId": "ID_50B0B1E96CE842F8B93D4341B98D6F89",
+        "sourceMedia": "xl/media/image14.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "12",
+    "name": "天长文艺中心剧院票根",
+    "sourceColumn": "P",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "P5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "P8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "P9"
+      },
+      {
+        "name": "location",
+        "description": "地点\n（格式：中英文数字，无符号）",
+        "sourceCell": "P11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "P16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "P17"
+      },
+      {
+        "name": "region",
+        "description": "区域",
+        "sourceCell": "P19"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（地点+日期+时间+区域+座位）",
+        "sourceCell": "P36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/12-1.jpeg",
+        "thumbnail": "/ticket-capabilities/12-1.webp",
+        "sourceCell": "P1",
+        "imageId": "ID_52D7C8156ABF41A7B319E37E49909B87",
+        "sourceMedia": "xl/media/image15.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "13",
+    "name": "马鞍山保利剧院票根",
+    "sourceColumn": "Q",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "Q5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "Q8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "Q9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "Q11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "Q16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "Q17"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "Q36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/13-1.jpeg",
+        "thumbnail": "/ticket-capabilities/13-1.webp",
+        "sourceCell": "Q1",
+        "imageId": "ID_920DC68FD1764619AB3F33538720B4DB",
+        "sourceMedia": "xl/media/image16.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "14",
+    "name": "包河凤凰剧院票根",
+    "sourceColumn": "R",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "R5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "R8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "R9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "R11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "R16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "R17"
+      },
+      {
+        "name": "ticketID",
+        "description": "NO",
+        "sourceCell": "R18"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "R36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/14-1.jpeg",
+        "thumbnail": "/ticket-capabilities/14-1.webp",
+        "sourceCell": "R1",
+        "imageId": "ID_BB9F37FE04AE4EE7B0476E26712A9060",
+        "sourceMedia": "xl/media/image17.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "15",
+    "name": "合肥大剧院票根",
+    "sourceColumn": "S",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "S5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "S8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "S9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "S11"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "S16"
+      },
+      {
+        "name": "fare",
+        "description": "价格",
+        "sourceCell": "S17"
+      },
+      {
+        "name": "ticketID",
+        "description": "NO",
+        "sourceCell": "S18"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "S36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/15-1.jpeg",
+        "thumbnail": "/ticket-capabilities/15-1.webp",
+        "sourceCell": "S1",
+        "imageId": "ID_355C92D924C242858D52B123669F7B45",
+        "sourceMedia": "xl/media/image18.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "16",
+    "name": "安徽秀动票根",
+    "sourceColumn": "T",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "T5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy.MM.dd）",
+        "sourceCell": "T8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "T9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "T11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "T14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "身份证号",
+        "sourceCell": "T15"
+      },
+      {
+        "name": "ticketID",
+        "description": "TKID",
+        "sourceCell": "T18"
+      },
+      {
+        "name": "phoneNumber",
+        "description": "联系手机",
+        "sourceCell": "T35"
+      },
+      {
+        "name": "note1",
+        "description": "TKID",
+        "sourceCell": "T36"
+      },
+      {
+        "name": "note2",
+        "description": "出票时间",
+        "sourceCell": "T37"
+      },
+      {
+        "name": "note3",
+        "description": "地址",
+        "sourceCell": "T38"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/16-1.jpeg",
+        "thumbnail": "/ticket-capabilities/16-1.webp",
+        "sourceCell": "T1",
+        "imageId": "ID_801768195C3F4B57BB21B86A2612C8A9",
+        "sourceMedia": "xl/media/image22.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "17",
+    "name": "安徽大麦票根",
+    "sourceColumn": "U",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "U5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy.MM.dd）",
+        "sourceCell": "U8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "U9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "U11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "U14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "身份证号",
+        "sourceCell": "U15"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "U16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "U17"
+      },
+      {
+        "name": "ticketID",
+        "description": "TN",
+        "sourceCell": "U18"
+      },
+      {
+        "name": "note1",
+        "description": "TN",
+        "sourceCell": "U36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/17-1.jpeg",
+        "thumbnail": "/ticket-capabilities/17-1.webp",
+        "sourceCell": "U1",
+        "imageId": "ID_AEA28BBEFBE24DEA811624127EC55EF1",
+        "sourceMedia": "xl/media/image19.jpeg"
+      },
+      {
+        "src": "/ticket-capabilities/17-2.jpeg",
+        "thumbnail": "/ticket-capabilities/17-2.webp",
+        "sourceCell": "U41",
+        "imageId": "ID_37849D69225F4DB8B9E68AAD78212E80",
+        "sourceMedia": "xl/media/image24.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "18",
+    "name": "安徽纷玩岛票根",
+    "sourceColumn": "V",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "V5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy/MM/dd）",
+        "sourceCell": "V8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "V9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "V11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "V14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "身份证号",
+        "sourceCell": "V15"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "V16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "V17"
+      },
+      {
+        "name": "ticketID",
+        "description": "票号",
+        "sourceCell": "V18"
+      },
+      {
+        "name": "note1",
+        "description": "票号",
+        "sourceCell": "V36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/18-1.jpeg",
+        "thumbnail": "/ticket-capabilities/18-1.webp",
+        "sourceCell": "V1",
+        "imageId": "ID_DE36D15329B4405C9C0F318E276C172B",
+        "sourceMedia": "xl/media/image21.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "19",
+    "name": "安徽携程票根",
+    "sourceColumn": "W",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "W5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy.MM.dd）",
+        "sourceCell": "W8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "W9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "W11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "W14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "身份证号",
+        "sourceCell": "W15"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "W16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "W17"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "W36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/19-1.jpeg",
+        "thumbnail": "/ticket-capabilities/19-1.webp",
+        "sourceCell": "W1",
+        "imageId": "ID_9639D86E0D284879A7929C02ECCEDA64",
+        "sourceMedia": "xl/media/image23.jpeg"
+      }
+    ]
+  },
+  {
+    "code": "20",
+    "name": "安徽猫眼票根",
+    "sourceColumn": "X",
+    "fields": [
+      {
+        "name": "eventName",
+        "description": "名称\n（格式：中英文数字，无符号）",
+        "sourceCell": "X5"
+      },
+      {
+        "name": "date",
+        "description": "日期\n（格式：yyyy-MM-dd）",
+        "sourceCell": "X8"
+      },
+      {
+        "name": "time",
+        "description": "时间",
+        "sourceCell": "X9"
+      },
+      {
+        "name": "location",
+        "description": "场馆\n（格式：中英文数字，无符号）",
+        "sourceCell": "X11"
+      },
+      {
+        "name": "name",
+        "description": "姓名",
+        "sourceCell": "X14"
+      },
+      {
+        "name": "IDNumber",
+        "description": "身份证号",
+        "sourceCell": "X15"
+      },
+      {
+        "name": "seat",
+        "description": "座位",
+        "sourceCell": "X16"
+      },
+      {
+        "name": "fare",
+        "description": "票价",
+        "sourceCell": "X17"
+      },
+      {
+        "name": "note1",
+        "description": "唯一性校验字段（场馆+日期+时间+座位）",
+        "sourceCell": "X36"
+      }
+    ],
+    "samples": [
+      {
+        "src": "/ticket-capabilities/20-1.jpeg",
+        "thumbnail": "/ticket-capabilities/20-1.webp",
+        "sourceCell": "X1",
+        "imageId": "ID_00B602B702144153AE3D1F10CDF158B8",
+        "sourceMedia": "xl/media/image20.jpeg"
+      }
+    ]
+  }
+]

@@ -1,3 +1,4 @@
+import { TicketCapabilities } from "./TicketCapabilities";
 import type React from "react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
@@ -588,6 +589,8 @@ function App() {
       <RouteScrollManager />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/ticket-capabilities" element={<TicketCapabilities header={<SiteHeader active="tickets" />} />} />
+        <Route path="/ticket-capabilities/:code" element={<TicketCapabilities header={<SiteHeader active="tickets" />} />} />
         <Route path="/activation-guide" element={<ActivationGuidePage />} />
         <Route path="/interfaces/:slug" element={<DetailPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -705,7 +708,7 @@ function SiteHeader({
   active,
   mobileTabs = [],
 }: {
-  active: "home" | "activation" | "detail";
+  active: "home" | "activation" | "detail" | "tickets";
   mobileTabs?: SiteHeaderMobileTab[];
 }) {
   const headerRef = useRef<HTMLElement | null>(null);
@@ -821,6 +824,7 @@ function SiteHeader({
             开通流程指引
           </Link>
           <a href="/interface-custom-guide/">接口定制指引</a>
+          <Link className={active === "tickets" ? "active" : undefined} to="/ticket-capabilities">票根识别能力查询</Link>
         </nav>
         <button
           aria-expanded={isSupportDialogOpen}
@@ -901,6 +905,7 @@ function SiteHeader({
               <a className="mobile-header-menu-item" href="/interface-custom-guide/" onClick={closeMobileMenu} role="menuitem">
                 接口定制指引
               </a>
+              <Link className="mobile-header-menu-item" to="/ticket-capabilities" onClick={closeMobileMenu} role="menuitem">票根识别能力查询</Link>
               <button className="mobile-header-menu-item" onClick={openSupportDialog} role="menuitem" type="button">
                 联系支持
               </button>

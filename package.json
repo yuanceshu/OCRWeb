@@ -13,7 +13,9 @@
     "extract:ocr-source-map": "node scripts/build-ocr-source-map.mjs",
     "validate:ocr-catalog": "node scripts/build-ocr-source-map.mjs --check-catalog",
     "optimize:home-assets": "node scripts/optimize-home-assets.mjs",
-    "compat:pc": "npm run build && node scripts/capture-pc-compat.mjs"
+    "compat:pc": "npm run build && node scripts/capture-pc-compat.mjs",
+    "build:ticket-capabilities": "node scripts/build-ticket-capabilities.mjs",
+    "validate:ticket-capabilities": "node scripts/build-ticket-capabilities.mjs --check"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.4",
