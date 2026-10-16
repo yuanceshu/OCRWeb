@@ -14,9 +14,9 @@ try {
   await page.screenshot({ path: `${output}/desktop-list.png`, fullPage: true });
   await page.locator('input').fill('有效期');
   assert.equal(await page.locator('.ticket-card').count(), 1);
-  await page.locator('.ticket-card h2 a').click();
+  await page.locator('.ticket-card h3 a').click();
   assert.match(await page.locator('.ticket-fields').innerText(), /competitionNumber/);
-  await page.getByRole('link', { name: '← 返回票根列表' }).click();
+  await page.getByRole('link', { name: '返回票根列表', exact: true }).click();
   assert.equal(await page.locator('input').inputValue(), '有效期');
   await page.locator('input').fill(' 大麦 TN ');
   assert.equal(await page.locator('.ticket-card').count(), 2);
@@ -25,9 +25,9 @@ try {
   await page.locator('.ticket-empty button').click();
   await page.evaluate(() => window.scrollTo({ top: 1000, behavior: 'instant' }));
   await page.waitForTimeout(150);
-  await page.locator('.ticket-card h2 a').nth(8).scrollIntoViewIfNeeded();
+  await page.locator('.ticket-card h3 a').nth(8).scrollIntoViewIfNeeded();
   const before = await page.evaluate(() => scrollY);
-  await page.locator('.ticket-card h2 a').nth(8).click();
+  await page.locator('.ticket-card h3 a').nth(8).click();
   await page.goBack();
   await page.waitForTimeout(400);
   assert.ok(Math.abs((await page.evaluate(() => scrollY)) - before) < 5, '浏览器返回应恢复列表位置');

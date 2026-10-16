@@ -15,6 +15,14 @@
     {
       "source": "/activation-guide",
       "destination": "/index.html"
+    },
+    {
+      "source": "/ticket-capabilities",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ticket-capabilities/:code",
+      "destination": "/index.html"
     }
   ]
 }

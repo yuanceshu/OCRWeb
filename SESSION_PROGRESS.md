@@ -506,3 +506,11 @@ Updated on `2026-09-17` for 临时文件清理与“接口定制指引”发布�
 - 提取/缩略图命令：`npm run build:ticket-capabilities`；只读校验：`npm run validate:ticket-capabilities`；live 交互验证：`node scripts/check-ticket-capabilities.mjs`（需要 dev server）。
 - 已通过 build、原图与字段逐项校验、Chromium 桌面 1600×900 和手机 390×844 交互检查，完成首页/开通流程/身份证详情/自训练指南桌面回归。截图位于 `.codex-screens/ticket-capabilities/`，属于本次验证产物，不能替代未来 live 状态。
 - 指南六步及后续教学内容与 HEAD 对比逐字一致；仅增加顶部查询提示与其专用样式。大图关闭焦点和返回列表滚动恢复已修复。
+
+
+## 2026-10-16 票根目录改为自训练指南风格
+
+- 用户明确要求新功能与 `/interface-custom-guide/` 的实际页面统一，否定沿用 OCR 主站的拟物档案信息呈现。以当前 live 页面复核为准：实际是深色顶栏、深蓝标题区、白色/浅灰正文及珊瑚橙重点，并非历史交付图中的全深色页面。
+- 查询页独立导航与 1180px 内容宽度对齐指南，搜索置于紧凑标题区；正文直接展示 3 列大样张，票根码降为次级信息。去除纸张/布面背景和共享主站页头。
+- 详情页桌面采用吸顶样张与字段并排，中文说明在前、接口字段名在后；手机顺序展示。保留 22 种票根、25 张样张及 186 个原始字段映射，未改指南六步或原始数据。
+- 已通过 build、Chromium 1600×900/390px 交互及现有页面回归；当前 live 验证截图在 `.codex-screens/ticket-capabilities/`，不作为未来页面状态依据。

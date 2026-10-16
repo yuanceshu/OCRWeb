@@ -589,8 +589,8 @@ function App() {
       <RouteScrollManager />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/ticket-capabilities" element={<TicketCapabilities header={<SiteHeader active="tickets" />} />} />
-        <Route path="/ticket-capabilities/:code" element={<TicketCapabilities header={<SiteHeader active="tickets" />} />} />
+        <Route path="/ticket-capabilities" element={<TicketCapabilities />} />
+        <Route path="/ticket-capabilities/:code" element={<TicketCapabilities />} />
         <Route path="/activation-guide" element={<ActivationGuidePage />} />
         <Route path="/interfaces/:slug" element={<DetailPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -708,7 +708,7 @@ function SiteHeader({
   active,
   mobileTabs = [],
 }: {
-  active: "home" | "activation" | "detail" | "tickets";
+  active: "home" | "activation" | "detail";
   mobileTabs?: SiteHeaderMobileTab[];
 }) {
   const headerRef = useRef<HTMLElement | null>(null);
@@ -824,7 +824,7 @@ function SiteHeader({
             开通流程指引
           </Link>
           <a href="/interface-custom-guide/">接口定制指引</a>
-          <Link className={active === "tickets" ? "active" : undefined} to="/ticket-capabilities">票根识别能力查询</Link>
+          <Link to="/ticket-capabilities">票根识别能力查询</Link>
         </nav>
         <button
           aria-expanded={isSupportDialogOpen}
